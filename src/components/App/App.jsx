@@ -19,6 +19,8 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import Play from '../Play/Play';
+import Presets from '../Presets/Presets'
 
 import './App.css';
 
@@ -67,7 +69,18 @@ function App() {
           >
             <InfoPage />
           </ProtectedRoute>
-
+          <ProtectedRoute
+          exact 
+          path="/presets"
+          >
+            <Presets/>
+            </ProtectedRoute>  
+          <ProtectedRoute
+            exact
+            path="/play"
+          >
+            <Play />
+          </ProtectedRoute> 
           <Route
             exact
             path="/login"
