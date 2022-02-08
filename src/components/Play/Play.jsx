@@ -1,7 +1,7 @@
 import * as Tone from 'tone'
 import {useEffect, useState} from 'react'
 function Play() {
-    
+    let [sequence, setSequence] = useState(null)
     let [notes, setNotes] = useState(["C3", "C4", "C5", "C4"])
     
     console.log(notes);
@@ -32,22 +32,25 @@ function Play() {
         setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
     }
 
-    const timeSequence = new Tone.Sequence((time, note) => {
-        synth.triggerAttackRelease(note, 0.1, time)
-
-    }, notes) 
+     
+    
     const startTransport = () => {
-        
+        const timeSequence = new Tone.Sequence((time, note) => {
+            synth.triggerAttackRelease(note, 0.1, time)
+
+        }, notes) 
+        setSequence(timeSequence)
         Tone.start() // start tone audio context on user interaction per spec of web audio api
         // !START! 
         Tone.Transport.start();
         //seq.start()
         timeSequence.start()
     }
-    //currently breaks if ya press stop twice
+    
     const stopTransport = () => {
         Tone.Transport.stop()
-        timeSequence.clear()
+
+        sequence.clear()
     }
    
     const playKick = () => {
