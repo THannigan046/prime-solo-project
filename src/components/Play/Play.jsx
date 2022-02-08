@@ -4,10 +4,10 @@ function Play() {
     
     let [notes, setNotes] = useState(["C3", "C4", "C5", "C4"])
     
-    
+    console.log(notes);
     const [isPlaying, setIsPlaying] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('play')
-    let [bpm, setBpm] = useState(120)
+    let [bpm, setBpm] = useState(80)
     Tone.Transport.bpm.value = bpm
     
     const volumeNode = new Tone.Volume(-9).toDestination();
@@ -30,17 +30,12 @@ function Play() {
         console.log('value is', event.target.value);
          ;
         setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
-        
-        
     }
-    
 
     const timeSequence = new Tone.Sequence((time, note) => {
         synth.triggerAttackRelease(note, 0.1, time)
 
-    }, notes ) 
-
-
+    }, notes) 
     const startTransport = () => {
         
         Tone.start() // start tone audio context on user interaction per spec of web audio api
@@ -49,9 +44,10 @@ function Play() {
         //seq.start()
         timeSequence.start()
     }
-
+    //currently breaks if ya press stop twice
     const stopTransport = () => {
         Tone.Transport.stop()
+        timeSequence.clear()
     }
    
     const playKick = () => {
