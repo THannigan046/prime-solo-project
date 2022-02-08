@@ -1,14 +1,15 @@
 import * as Tone from 'tone'
 import {useEffect, useState} from 'react'
 function Play() {
-    let notes = [step1, "C4", "C5", "C4",]
-    console.log(step1);
-    const [step1, setStep1] = useState("C3")
+    
+    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4"])
+    
+    
     const [isPlaying, setIsPlaying] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('play')
     let [bpm, setBpm] = useState(120)
     Tone.Transport.bpm.value = bpm
-
+    
     const volumeNode = new Tone.Volume(-9).toDestination();
     const synth = new Tone.MonoSynth({
         oscillator: {
@@ -23,6 +24,15 @@ function Play() {
 
     }).chain(volumeNode, Tone.Destination)
 
+        // Declare handleChange
+    const handleChange = (stepNumber, event) => {
+        console.log('stepNumber is', stepNumber);
+        console.log('value is', event.target.value);
+         ;
+        setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
+        
+        
+    }
     
 
     const timeSequence = new Tone.Sequence((time, note) => {
@@ -88,11 +98,11 @@ function Play() {
         <h1>Dammit bobby, play your dang synths</h1>
             <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660"/>
             <br></br>
-            <p>transport</p>
-            
+            <p>Notes</p>
+            <form>
             <select 
-            name="step1" id="step1"
-            value={step1} onChange={evt => (setStep1(evt.target.value))}>
+            name="step" id="step0"
+             onChange={(e) => handleChange(0, e)}>
             <option value="C3">C3</option>
             <option value="D3">D3</option>
             <option value="E3">E3</option>
@@ -101,7 +111,8 @@ function Play() {
             <option value="C4">C4</option>
             </select>
             <select
-                name="step2" id="step2">
+                name="step2" id="step2"
+                    onChange={handleChange}>
                 <option value="C3">C3</option>
                 <option value="D3">D3</option>
                 <option value="E3">E3</option>
@@ -110,7 +121,8 @@ function Play() {
                 <option value="C4">C4</option>
             </select>
             <select
-                name="step3" id="step3">
+                name="step3" id="step3"
+                    onChange={handleChange}>
                 <option value="C3">C3</option>
                 <option value="D3">D3</option>
                 <option value="E3">E3</option>
@@ -119,7 +131,8 @@ function Play() {
                 <option value="C4">C4</option>
             </select>
             <select
-                name="step4" id="step4">
+                name="step4" id="step4"
+                    onChange={handleChange}>
                 <option value="C3">C3</option>
                 <option value="D3">D3</option>
                 <option value="E3">E3</option>
@@ -127,6 +140,17 @@ function Play() {
                 <option value="A4">A4</option>
                 <option value="C4">C4</option>
             </select>
+                <select
+                    name="oscType" id="oscType">
+                    <option value="Sine">Sine</option>
+                    <option value="Triangle">Triangle</option>
+                    <option value="Saw">Saw</option>
+                    <option value="Square">Triangle</option>
+                    
+                </select>
+            </form>
+
+            
             <button onClick={startTransport}>{playButtonText}</button>
             <button onClick={stopTransport}>stop</button>
             <br></br>
@@ -135,7 +159,7 @@ function Play() {
             <button onClick={playSnare}>Snare</button>
             <button onClick={playHat}>Hihat</button>
             <button onClick={playTom}>Tom1</button>
-            <br></br>
+            <br></br> 
             <div className='drumSequencer'>
             <p>kick</p>
             <input  type="checkbox"/>
