@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 function Play() {
     let [sequence, setSequence] = useState(null)
     let [notes, setNotes] = useState(["C3", "C4", "C5", "C4"])
-    
+    let [oscil, setOscil] = useState('sine')
     console.log(notes);
     const [isPlaying, setIsPlaying] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('play')
@@ -15,12 +15,18 @@ function Play() {
         oscillator: {
             //can be square, tri or saw, 
             //gonna add a selector shortly
-            type: 'square'
+            type: oscil
         }, 
         filter: {
-            frequency: 18000,
+            frequency: 8000,
             type: 'lowpass'
+        },
+        filterEnvelope: {
+            attack: 0.1,
+            baseFrequency: "C3",
+            octaves: 4
         }
+
 
     }).chain(volumeNode, Tone.Destination)
 
@@ -110,8 +116,18 @@ function Play() {
             <option value="C4">C4</option>
             </select>
             <select
+                name="step1" id="step1"
+                    onChange={(e) => handleChange(1, e)}>
+                <option value="C3">C3</option>
+                <option value="D3">D3</option>
+                <option value="E3">E3</option>
+                <option value="G3">G3</option>
+                <option value="A4">A4</option>
+                <option value="C4">C4</option>
+            </select>
+            <select
                 name="step2" id="step2"
-                    onChange={handleChange}>
+                    onChange={(e) => handleChange(2, e)}>
                 <option value="C3">C3</option>
                 <option value="D3">D3</option>
                 <option value="E3">E3</option>
@@ -121,17 +137,7 @@ function Play() {
             </select>
             <select
                 name="step3" id="step3"
-                    onChange={handleChange}>
-                <option value="C3">C3</option>
-                <option value="D3">D3</option>
-                <option value="E3">E3</option>
-                <option value="G3">G3</option>
-                <option value="A4">A4</option>
-                <option value="C4">C4</option>
-            </select>
-            <select
-                name="step4" id="step4"
-                    onChange={handleChange}>
+                    onChange={(e) => handleChange(3, e)}>
                 <option value="C3">C3</option>
                 <option value="D3">D3</option>
                 <option value="E3">E3</option>
@@ -140,11 +146,12 @@ function Play() {
                 <option value="C4">C4</option>
             </select>
                 <select
-                    name="oscType" id="oscType">
-                    <option value="Sine">Sine</option>
-                    <option value="Triangle">Triangle</option>
-                    <option value="Saw">Saw</option>
-                    <option value="Square">Triangle</option>
+                    name="oscType" id="oscType"
+                    onChange={(e) => setOscil(e.target.value)}>
+                    <option value="sine">Sine</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="saw">Saw</option>
+                    <option value="square">Square</option>
                     
                 </select>
             </form>
