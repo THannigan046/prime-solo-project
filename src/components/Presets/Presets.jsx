@@ -3,7 +3,7 @@ import react, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
 function Presets () {
-
+    const user = useSelector(store => store.user)
     let [presetList, setPresetList] = useState([])
 
     useEffect(() => {
@@ -25,6 +25,11 @@ function Presets () {
 
     const deletePreset = (id) => {
         console.log('id is', id);
+        axios.delete(`/api/preset/${id}`)
+        .then((res) => {
+            console.log('delete success', res);
+            getPresets()
+        })
     }
     return(
         <>

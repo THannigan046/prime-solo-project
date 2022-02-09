@@ -52,8 +52,18 @@ router.put('/', (req, res) => {
 
 })
 
-router.delete('/', (req, res) => {
-
+router.delete('/:id', (req, res) => {
+  console.log('id is', req.params.id);
+  let queryText =`
+  DELETE FROM preset 
+  WHERE id = $1
+  `
+  pool.query(queryText, [req.params.id])
+  .then(() => {res.sendStatus(200);})
+  .catch((err) => {
+    console.log('delete error', err);
+    res.sendStatus(500)
+  })
 })
 
 module.exports = router;
