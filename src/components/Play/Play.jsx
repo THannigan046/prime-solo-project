@@ -22,7 +22,6 @@ function Play() {
     const volumeNode = new Tone.Volume(-5).toDestination();
 
     const savePresetAs = () => {
-
         axios.post('/api/preset', {
             presetName, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId
         }).then(() => {
@@ -55,9 +54,6 @@ function Play() {
 
     // Declare handleChange
     const handleChange = (stepNumber, event) => {
-        console.log('stepNumber is', stepNumber);
-        console.log('value is', event.target.value);
-        ;
         setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
     }
     const handleKickChange = (stepNumber, event) => {
@@ -73,8 +69,6 @@ function Play() {
 
     const handleSnareChange = (stepNumber, event) => {
         let value = event.target.value
-        /* console.log('stepNumber is', stepNumber);
-        console.log('value is', value); */
         if (snares[stepNumber] === value) {
             value = null
         }
@@ -84,8 +78,6 @@ function Play() {
 
     const handleHatChange = (stepNumber, event) => {
         let value = event.target.value
-        console.log('stepnumber is', stepNumber);
-        console.log('value is', value);
         if (hats[stepNumber] === value) {
             value = null
         }
@@ -95,8 +87,6 @@ function Play() {
 
     const handleTomChange = (stepNumber, event) => {
         let value = event.target.value
-        console.log('stepnumber is', stepNumber);
-        console.log('value is', value);
         if (toms[stepNumber] === value) {
             value = null
         }
@@ -152,25 +142,6 @@ function Play() {
 
     }
 
-    /* const startTransport = () => {
-        const timeSequence = new Tone.Sequence((time, note) => {
-            synth.triggerAttackRelease(note, 0.1, time)
-
-        }, notes) 
-        setSequence(timeSequence)
-        Tone.start() // start tone audio context on user interaction per spec of web audio api
-        // !START! 
-        Tone.Transport.start();
-        //seq.start()
-        timeSequence.start()
-    }
-    
-    const stopTransport = () => {
-        Tone.Transport.stop()
-
-        sequence.clear()
-    } */
-
 
     const kick = new Tone.Sampler({
         urls: {
@@ -201,27 +172,6 @@ function Play() {
     }).toDestination()
 
 
-
-
-    //const kick = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/kick.mp3").toDestination()
-
-    //const snare = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/snare.mp3").toDestination()
-
-    //const hihat = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/hihat.mp3").toDestination()
-
-    //const tom1 = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/tom1.mp3").toDestination()
-
-
-    /* const drumSet = new Tone.Players({
-        urls: {
-            0: "kick.mp3",
-            1: "snare.mp3",
-            2: "hihat.mp3", 
-            3: "tom1.mp3",
-        },
-        fadeOut: "16n",
-        baseUrl: "https://tonejs.github.io/audio/drum-samples/CR78/"
-    }).toDestination() */
 
     return (
         <>

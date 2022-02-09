@@ -7,7 +7,12 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   // GET route code here
-
+  const sqlText = `SELECT * FROM preset`
+  pool.query(sqlText)
+    .then((result) => {
+      console.log('result is', result);
+      res.send(result.rows)
+    })
 });
 
 /**
@@ -28,8 +33,8 @@ router.post('/', (req, res) => {
   const userId = req.body.userId
 
   let queryParams = [name, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId]
-  const queryText = 
-  `INSERT INTO preset (name, notes, kicks, snares, hats, toms, oscil, pattern, bpm, user_id)
+  const queryText =
+    `INSERT INTO preset (name, notes, kicks, snares, hats, toms, oscil, pattern, bpm, user_id)
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
   `;
   pool.query(queryText, queryParams)
