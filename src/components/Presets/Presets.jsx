@@ -1,4 +1,4 @@
-
+import * as Tone from 'tone'
 import react, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
@@ -7,6 +7,8 @@ function Presets () {
     let [presetList, setPresetList] = useState([])
 
     useEffect(() => {
+        Tone.Transport.stop()
+        Tone.Transport.cancel()
         getPresets()
     }, [])
 

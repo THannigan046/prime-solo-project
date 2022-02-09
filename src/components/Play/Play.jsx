@@ -26,8 +26,10 @@ function Play() {
             presetName, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId
         }).then(() => {
             console.log('post success');
+            alert('Preset Saved!')
         }).catch((err) => {
             console.log('post failed', err);
+            alert('ya dun goofed, try again')
         })
     }
 
@@ -93,7 +95,6 @@ function Play() {
 
         setToms([...toms.slice(0, stepNumber), value, ...toms.slice(stepNumber + 1)])
     }
-
 
 
     const transport = () => {
@@ -385,6 +386,7 @@ function Play() {
             </div>
             <input type="text" placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
             <button onClick={savePresetAs}>Save Preset As</button>
+            <button>Save preset</button>
 
         </>
     )
