@@ -18,12 +18,19 @@ router.post('/', (req, res) => {
   console.log('made it to server', req.body);
   const name = req.body.presetName
   const notes = req.body.notes
+  const kicks = req.body.kicks
+  const snares = req.body.snares
+  const hats = req.body.hats
+  const toms = req.body.toms
+  const oscil = req.body.oscil
+  const pattern = req.body.pattern
+  const bpm = req.body.bpm
   const userId = req.body.userId
 
-  let queryParams = [name, notes, userId]
+  let queryParams = [name, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId]
   const queryText = 
-  `INSERT INTO preset (name, notes, user_id)
-  VALUES ($1, $2, $3)
+  `INSERT INTO preset (name, notes, kicks, snares, hats, toms, oscil, pattern, bpm, user_id)
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
   `;
   pool.query(queryText, queryParams)
     .then((result) => {

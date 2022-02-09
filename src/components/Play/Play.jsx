@@ -22,9 +22,13 @@ function Play() {
     const volumeNode = new Tone.Volume(-5).toDestination();
 
     const savePresetAs = () => {
-        
+
         axios.post('/api/preset', {
-            presetName, notes, userId
+            presetName, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId
+        }).then(() => {
+            console.log('post success');
+        }).catch((err) => {
+            console.log('post failed', err);
         })
     }
 
@@ -197,7 +201,7 @@ function Play() {
     }).toDestination()
 
 
-    
+
 
     //const kick = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/kick.mp3").toDestination()
 
@@ -343,7 +347,7 @@ function Play() {
                 <select
                     name="step7" id="step7"
                     onChange={(e) => handleChange(7, e)}>
-                    
+
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
                     <option value="B3">B3</option>
@@ -384,7 +388,7 @@ function Play() {
             </form>
 
 
-            
+
             <br></br>
             <p>drums</p>
             <br></br>
@@ -429,7 +433,7 @@ function Play() {
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(6, e) }} />
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(7, e) }} />
             </div>
-            <input type="text"  placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
+            <input type="text" placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
             <button onClick={savePresetAs}>Save Preset As</button>
 
         </>
