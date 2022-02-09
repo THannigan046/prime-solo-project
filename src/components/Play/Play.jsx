@@ -1,21 +1,38 @@
 import * as Tone from 'tone'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
+
 function Play() {
+    const userId = useSelector(store => store.user.id);
     let [sequence, setSequence] = useState(null)
-    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4", "C3", "C4", "C5", "C4",])
+    let [notes, setNotes] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
     const [kicks, setKicks] = useState([null, null, null, null, null, null, null, null,])
     const [snares, setSnares] = useState([null, null, null, null, null, null, null, null,])
     const [hats, setHats] = useState([null, null, null, null, null, null, null, null,])
     const [toms, setToms] = useState([null, null, null, null, null, null, null, null,])
     let [oscil, setOscil] = useState('sine')
     let [pattern, setPattern] = useState('up')
-    console.log(toms);
+    let [presetName, setPresetName] = useState('')
     const [isPlaying, setIsPlaying] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('play')
     let [bpm, setBpm] = useState(80)
     Tone.Transport.bpm.value = bpm
 
     const volumeNode = new Tone.Volume(-5).toDestination();
+
+    const savePresetAs = () => {
+        axios.post('/api/preset', {
+            presetName, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId
+        }).then(() => {
+            console.log('post success');
+            alert('Preset Saved!')
+        }).catch((err) => {
+            console.log('post failed', err);
+            alert('ya dun goofed, try again')
+        })
+    }
+
     const synth = new Tone.MonoSynth({
         oscillator: {
             //can be sine, square, tri or saw
@@ -39,9 +56,6 @@ function Play() {
 
     // Declare handleChange
     const handleChange = (stepNumber, event) => {
-        console.log('stepNumber is', stepNumber);
-        console.log('value is', event.target.value);
-        ;
         setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
     }
     const handleKickChange = (stepNumber, event) => {
@@ -57,8 +71,6 @@ function Play() {
 
     const handleSnareChange = (stepNumber, event) => {
         let value = event.target.value
-        /* console.log('stepNumber is', stepNumber);
-        console.log('value is', value); */
         if (snares[stepNumber] === value) {
             value = null
         }
@@ -68,8 +80,6 @@ function Play() {
 
     const handleHatChange = (stepNumber, event) => {
         let value = event.target.value
-        console.log('stepnumber is', stepNumber);
-        console.log('value is', value);
         if (hats[stepNumber] === value) {
             value = null
         }
@@ -79,15 +89,12 @@ function Play() {
 
     const handleTomChange = (stepNumber, event) => {
         let value = event.target.value
-        console.log('stepnumber is', stepNumber);
-        console.log('value is', value);
         if (toms[stepNumber] === value) {
             value = null
         }
 
         setToms([...toms.slice(0, stepNumber), value, ...toms.slice(stepNumber + 1)])
     }
-
 
 
     const transport = () => {
@@ -136,25 +143,6 @@ function Play() {
 
     }
 
-    /* const startTransport = () => {
-        const timeSequence = new Tone.Sequence((time, note) => {
-            synth.triggerAttackRelease(note, 0.1, time)
-
-        }, notes) 
-        setSequence(timeSequence)
-        Tone.start() // start tone audio context on user interaction per spec of web audio api
-        // !START! 
-        Tone.Transport.start();
-        //seq.start()
-        timeSequence.start()
-    }
-    
-    const stopTransport = () => {
-        Tone.Transport.stop()
-
-        sequence.clear()
-    } */
-
 
     const kick = new Tone.Sampler({
         urls: {
@@ -185,33 +173,14 @@ function Play() {
     }).toDestination()
 
 
-    //const kick = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/kick.mp3").toDestination()
-
-    //const snare = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/snare.mp3").toDestination()
-
-    //const hihat = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/hihat.mp3").toDestination()
-
-    //const tom1 = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/tom1.mp3").toDestination()
-
-
-    /* const drumSet = new Tone.Players({
-        urls: {
-            0: "kick.mp3",
-            1: "snare.mp3",
-            2: "hihat.mp3", 
-            3: "tom1.mp3",
-        },
-        fadeOut: "16n",
-        baseUrl: "https://tonejs.github.io/audio/drum-samples/CR78/"
-    }).toDestination() */
 
     return (
         <>
 
-
             <h1>Dammit bobby, play your dang synths</h1>
             <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
             <br></br>
+            <button onClick={transport}>{playButtonText}</button>
             <p>Notes</p>
             <form>
                 <select
@@ -329,7 +298,7 @@ function Play() {
                 <select
                     name="step7" id="step7"
                     onChange={(e) => handleChange(7, e)}>
-                    
+
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
                     <option value="B3">B3</option>
@@ -370,7 +339,7 @@ function Play() {
             </form>
 
 
-            <button onClick={transport}>{playButtonText}</button>
+
             <br></br>
             <p>drums</p>
             <br></br>
@@ -415,6 +384,9 @@ function Play() {
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(6, e) }} />
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(7, e) }} />
             </div>
+            <input type="text" placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
+            <button onClick={savePresetAs}>Save Preset As</button>
+            <button>Save preset</button>
 
         </>
     )
