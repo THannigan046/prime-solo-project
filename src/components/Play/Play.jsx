@@ -2,8 +2,9 @@ import * as Tone from 'tone'
 import {useEffect, useState} from 'react'
 function Play() {
     let [sequence, setSequence] = useState(null)
-    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4"])
+    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4", "C3", "C4", "C5", "C4",])
     let [oscil, setOscil] = useState('sine')
+    let [pattern, setPattern] = useState('up')
     console.log(notes);
     const [isPlaying, setIsPlaying] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('play')
@@ -42,10 +43,10 @@ function Play() {
         if (!isPlaying) {
             setIsPlaying(true)
             setPlayButtonText('stop')
-            const timeSequence = new Tone.Sequence((time, note) => {
+            const timeSequence = new Tone.Pattern((time, note) => {
                 synth.triggerAttackRelease(note, 0.1, time)
 
-            }, notes)
+            }, notes, pattern)
             setSequence(timeSequence)
             Tone.start() // start tone audio context on user interaction per spec of web audio api
             // !START! 
@@ -169,6 +170,46 @@ function Play() {
                 <option value="C4">C4</option>
             </select>
                 <select
+                    name="step4" id="step4"
+                    onChange={(e) => handleChange(4, e)}>
+                    <option value="C3">C3</option>
+                    <option value="D3">D3</option>
+                    <option value="E3">E3</option>
+                    <option value="G3">G3</option>
+                    <option value="A4">A4</option>
+                    <option value="C4">C4</option>
+                </select>
+                <select
+                    name="step5" id="step5"
+                    onChange={(e) => handleChange(5, e)}>
+                    <option value="C3">C3</option>
+                    <option value="D3">D3</option>
+                    <option value="E3">E3</option>
+                    <option value="G3">G3</option>
+                    <option value="A4">A4</option>
+                    <option value="C4">C4</option>
+                </select>
+                <select
+                    name="step6" id="step6"
+                    onChange={(e) => handleChange(6, e)}>
+                    <option value="C3">C3</option>
+                    <option value="D3">D3</option>
+                    <option value="E3">E3</option>
+                    <option value="G3">G3</option>
+                    <option value="A4">A4</option>
+                    <option value="C4">C4</option>
+                </select>
+                <select
+                    name="step7" id="step7"
+                    onChange={(e) => handleChange(7, e)}>
+                    <option value="C3">C3</option>
+                    <option value="D3">D3</option>
+                    <option value="E3">E3</option>
+                    <option value="G3">G3</option>
+                    <option value="A4">A4</option>
+                    <option value="C4">C4</option>
+                </select>
+                <select
                     name="oscType" id="oscType"
                     onChange={(e) => setOscil(e.target.value)}>
                     <option value="sine">Sine</option>
@@ -177,7 +218,21 @@ function Play() {
                     <option value="square">Square</option>
                     
                 </select>
-                
+                <select
+                name='pattern' id='pattern'
+                onChange={(e) => setPattern(e.target.value)}
+                >
+                    <option value="up">up</option>
+                    <option value="down">down</option>
+                    <option value="upDown">upDown</option>
+                    <option value='downUp'>downUp</option>
+                    <option value='random'>random</option>
+                    <option value='randomWalk'>randomWalk</option>
+                    <option value='randomOnce'>randomOnce</option>
+                </select>
+                <input name='bpm' id='bpm'
+                placeholder='bpm' onChange={(e) => setBpm(e.target.value)}
+                ></input>
             </form>
 
             
