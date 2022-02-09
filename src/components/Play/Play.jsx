@@ -38,9 +38,32 @@ function Play() {
         setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
     }
 
-     
+    const transport = () => {
+        if (!isPlaying) {
+            setIsPlaying(true)
+            setPlayButtonText('stop')
+            const timeSequence = new Tone.Sequence((time, note) => {
+                synth.triggerAttackRelease(note, 0.1, time)
+
+            }, notes)
+            setSequence(timeSequence)
+            Tone.start() // start tone audio context on user interaction per spec of web audio api
+            // !START! 
+            Tone.Transport.start();
+            //seq.start()
+            timeSequence.start()
+        }
+        else {
+            setIsPlaying(false)
+            setPlayButtonText('play')
+            Tone.Transport.stop()
+            Tone.Transport.cancel()
+            sequence.clear()
+        }
+        
+    }
     
-    const startTransport = () => {
+    /* const startTransport = () => {
         const timeSequence = new Tone.Sequence((time, note) => {
             synth.triggerAttackRelease(note, 0.1, time)
 
@@ -57,7 +80,7 @@ function Play() {
         Tone.Transport.stop()
 
         sequence.clear()
-    }
+    } */
    
     const playKick = () => {
         kick.start()
@@ -150,15 +173,15 @@ function Play() {
                     onChange={(e) => setOscil(e.target.value)}>
                     <option value="sine">Sine</option>
                     <option value="triangle">Triangle</option>
-                    <option value="saw">Saw</option>
+                    <option value="sawtooth">Saw</option>
                     <option value="square">Square</option>
                     
                 </select>
+                
             </form>
 
             
-            <button onClick={startTransport}>{playButtonText}</button>
-            <button onClick={stopTransport}>stop</button>
+            <button onClick={transport}>{playButtonText}</button>
             <br></br>
             <p>drums</p>
             <button onClick={playKick}>Kick</button>
