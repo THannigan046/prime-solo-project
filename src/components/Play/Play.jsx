@@ -1,12 +1,12 @@
 import * as Tone from 'tone'
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 function Play() {
     let [sequence, setSequence] = useState(null)
-    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4", "C3", "C4", "C5", "C4",]) 
+    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4", "C3", "C4", "C5", "C4",])
     const [kicks, setKicks] = useState([null, null, null, null, null, null, null, null,])
     const [snares, setSnares] = useState([null, null, null, null, null, null, null, null,])
-    const [hats, setHats] = useState([null, null, null, null,null, null, null, null,])
-    const [toms, setToms] = useState([null, null, null, null,null, null, null, null,])
+    const [hats, setHats] = useState([null, null, null, null, null, null, null, null,])
+    const [toms, setToms] = useState([null, null, null, null, null, null, null, null,])
     let [oscil, setOscil] = useState('sine')
     let [pattern, setPattern] = useState('up')
     console.log(toms);
@@ -14,14 +14,13 @@ function Play() {
     const [playButtonText, setPlayButtonText] = useState('play')
     let [bpm, setBpm] = useState(80)
     Tone.Transport.bpm.value = bpm
-    
+
     const volumeNode = new Tone.Volume(-5).toDestination();
     const synth = new Tone.MonoSynth({
         oscillator: {
-            //can be square, tri or saw, 
-            //gonna add a selector shortly
+            //can be sine, square, tri or saw
             type: oscil
-        }, 
+        },
         filter: {
             frequency: 8000,
             type: 'lowpass'
@@ -36,20 +35,20 @@ function Play() {
     }).chain(volumeNode, Tone.Destination)
 
 
-    
 
-        // Declare handleChange
+
+    // Declare handleChange
     const handleChange = (stepNumber, event) => {
         console.log('stepNumber is', stepNumber);
         console.log('value is', event.target.value);
-         ;
+        ;
         setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
     }
     const handleKickChange = (stepNumber, event) => {
-        let value = event.target.value 
+        let value = event.target.value
         /* console.log('stepnumber is', stepNumber);
         console.log('value is', value); */
-        if (kicks[stepNumber] === value){
+        if (kicks[stepNumber] === value) {
             value = null
         }
 
@@ -57,7 +56,7 @@ function Play() {
     }
 
     const handleSnareChange = (stepNumber, event) => {
-        let value = event.target.value 
+        let value = event.target.value
         /* console.log('stepNumber is', stepNumber);
         console.log('value is', value); */
         if (snares[stepNumber] === value) {
@@ -89,8 +88,8 @@ function Play() {
         setToms([...toms.slice(0, stepNumber), value, ...toms.slice(stepNumber + 1)])
     }
 
-    
-    
+
+
     const transport = () => {
         if (!isPlaying) {
             setIsPlaying(true)
@@ -134,9 +133,9 @@ function Play() {
             Tone.Transport.cancel()
             //sequence.clear()
         }
-        
+
     }
-    
+
     /* const startTransport = () => {
         const timeSequence = new Tone.Sequence((time, note) => {
             synth.triggerAttackRelease(note, 0.1, time)
@@ -155,12 +154,12 @@ function Play() {
 
         sequence.clear()
     } */
-   
-    
+
+
     const kick = new Tone.Sampler({
         urls: {
             C3: 'kick.mp3'
-        }, 
+        },
         baseUrl: 'https://tonejs.github.io/audio/drum-samples/CR78/'
     }).toDestination()
 
@@ -183,9 +182,9 @@ function Play() {
             C3: 'tom1.mp3'
         },
         baseUrl: 'https://tonejs.github.io/audio/drum-samples/CR78/'
-    }).toDestination() 
+    }).toDestination()
 
-    
+
     //const kick = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/kick.mp3").toDestination()
 
     //const snare = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/snare.mp3").toDestination()
@@ -193,8 +192,8 @@ function Play() {
     //const hihat = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/hihat.mp3").toDestination()
 
     //const tom1 = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/tom1.mp3").toDestination()
-    
-    
+
+
     /* const drumSet = new Tone.Players({
         urls: {
             0: "kick.mp3",
@@ -210,29 +209,29 @@ function Play() {
         <>
 
 
-        <h1>Dammit bobby, play your dang synths</h1>
-            <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660"/>
+            <h1>Dammit bobby, play your dang synths</h1>
+            <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
             <br></br>
             <p>Notes</p>
             <form>
-            <select 
-            name="step0" id="step0"
-             onChange={(e) => handleChange(0, e)}>
-            <option value="A3">A3</option>
-            <option value="A#3">A#3</option>
-            <option value="B3">B3</option>
-            <option value="C3">C3</option>
-            <option value="C#3">C#3</option>
-            <option value="D3">D3</option>
-            <option value="D#3">D#3</option>
-            <option value="E3">E3</option>
-            <option value="F3">F3</option>
-            <option value="F#3">F#3</option>
-            <option value="G3">G3</option>
-            <option value="G#3">G#3</option>
-            </select>
-            <select
-                name="step1" id="step1"
+                <select
+                    name="step0" id="step0"
+                    onChange={(e) => handleChange(0, e)}>
+                    <option value="A3">A3</option>
+                    <option value="A#3">A#3</option>
+                    <option value="B3">B3</option>
+                    <option value="C3">C3</option>
+                    <option value="C#3">C#3</option>
+                    <option value="D3">D3</option>
+                    <option value="D#3">D#3</option>
+                    <option value="E3">E3</option>
+                    <option value="F3">F3</option>
+                    <option value="F#3">F#3</option>
+                    <option value="G3">G3</option>
+                    <option value="G#3">G#3</option>
+                </select>
+                <select
+                    name="step1" id="step1"
                     onChange={(e) => handleChange(1, e)}>
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
@@ -246,9 +245,9 @@ function Play() {
                     <option value="F#3">F#3</option>
                     <option value="G3">G3</option>
                     <option value="G#3">G#3</option>
-            </select>
-            <select
-                name="step2" id="step2"
+                </select>
+                <select
+                    name="step2" id="step2"
                     onChange={(e) => handleChange(2, e)}>
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
@@ -262,9 +261,9 @@ function Play() {
                     <option value="F#3">F#3</option>
                     <option value="G3">G3</option>
                     <option value="G#3">G#3</option>
-            </select>
-            <select
-                name="step3" id="step3"
+                </select>
+                <select
+                    name="step3" id="step3"
                     onChange={(e) => handleChange(3, e)}>
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
@@ -278,7 +277,7 @@ function Play() {
                     <option value="F#3">F#3</option>
                     <option value="G3">G3</option>
                     <option value="G#3">G#3</option>
-            </select>
+                </select>
                 <select
                     name="step4" id="step4"
                     onChange={(e) => handleChange(4, e)}>
@@ -330,6 +329,7 @@ function Play() {
                 <select
                     name="step7" id="step7"
                     onChange={(e) => handleChange(7, e)}>
+                    
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
                     <option value="B3">B3</option>
@@ -350,11 +350,11 @@ function Play() {
                     <option value="triangle">Triangle</option>
                     <option value="sawtooth">Saw</option>
                     <option value="square">Square</option>
-                    
+
                 </select>
                 <select
-                name='pattern' id='pattern'
-                onChange={(e) => setPattern(e.target.value)}
+                    name='pattern' id='pattern'
+                    onChange={(e) => setPattern(e.target.value)}
                 >
                     <option value="up">up</option>
                     <option value="down">down</option>
@@ -365,57 +365,57 @@ function Play() {
                     <option value='randomOnce'>randomOnce</option>
                 </select>
                 <input name='bpm' id='bpm'
-                placeholder='bpm' onChange={(e) => setBpm(e.target.value)}
+                    placeholder='bpm' onChange={(e) => setBpm(e.target.value)}
                 ></input>
             </form>
 
-            
+
             <button onClick={transport}>{playButtonText}</button>
             <br></br>
             <p>drums</p>
-            <br></br> 
+            <br></br>
             <div className='drumSequencer'>
-            <p>kick</p>
-            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(0, e))}/>
-            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(1, e))}/>
-            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(2, e))}/>
-            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(3, e))}/>
-            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(4, e))} />
-            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(5, e))} />
-            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(6, e))} />
-            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(7, e))} />
-            <br></br>
-            <p>snare</p>
-            <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(0, e))} />
-            <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(1, e))}/>
-            <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(2, e))}/>
-            <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(3, e))}/>
-            <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(4, e))} />
-            <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(5, e))} />
-            <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(6, e))} />
-            <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(7, e))} />
-            <br></br>
-            <p>hihat</p>
-            <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(0, e))} />
-            <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(1, e))}/>
-            <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(2, e))}/>
-            <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(3, e))} /> 
-            <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(4, e))} />
-            <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(5, e))} />
-            <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(6, e))} />
-            <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(7, e))} />
-            <br></br>
-            <p>tom1</p>
-            <input type="checkbox" value='C3' onChange={(e) => {handleTomChange(0, e)}}/>
-            <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(1, e) }} />
-            <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(2, e) }}/>
-            <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(3, e) }}/>
-            <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(4, e) }} />
-            <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(5, e) }} />
-            <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(6, e) }} />
-            <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(7, e) }} />
+                <p>kick</p>
+                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(0, e))} />
+                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(1, e))} />
+                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(2, e))} />
+                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(3, e))} />
+                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(4, e))} />
+                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(5, e))} />
+                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(6, e))} />
+                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(7, e))} />
+                <br></br>
+                <p>snare</p>
+                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(0, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(1, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(2, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(3, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(4, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(5, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(6, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(7, e))} />
+                <br></br>
+                <p>hihat</p>
+                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(0, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(1, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(2, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(3, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(4, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(5, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(6, e))} />
+                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(7, e))} />
+                <br></br>
+                <p>tom1</p>
+                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(0, e) }} />
+                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(1, e) }} />
+                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(2, e) }} />
+                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(3, e) }} />
+                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(4, e) }} />
+                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(5, e) }} />
+                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(6, e) }} />
+                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(7, e) }} />
             </div>
-            
+
         </>
     )
 }
