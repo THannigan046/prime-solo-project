@@ -2,10 +2,11 @@ import * as Tone from 'tone'
 import {useEffect, useState} from 'react'
 function Play() {
     let [sequence, setSequence] = useState(null)
-    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4", "C3", "C4", "C5", "C4",])
+    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4", "C3", "C4", "C5", "C4",]) 
+    const [kicks, setKicks] = useState([null, null, null, null,])
     let [oscil, setOscil] = useState('sine')
     let [pattern, setPattern] = useState('up')
-    console.log(notes);
+    console.log(kicks);
     const [isPlaying, setIsPlaying] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('play')
     let [bpm, setBpm] = useState(80)
@@ -31,6 +32,9 @@ function Play() {
 
     }).chain(volumeNode, Tone.Destination)
 
+
+    
+
         // Declare handleChange
     const handleChange = (stepNumber, event) => {
         console.log('stepNumber is', stepNumber);
@@ -38,7 +42,16 @@ function Play() {
          ;
         setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
     }
+    const handleKickChange = (stepNumber, event) => {
+        let value = event.target.value 
+        console.log('stepnumber is', stepNumber);
+        console.log('value is', value);
+        if (kicks[stepNumber] === value){
+            value = null
+        }
 
+        setKicks([...kicks.slice(0, stepNumber), value, ...kicks.slice(stepNumber + 1)])
+    }
     const transport = () => {
         if (!isPlaying) {
             setIsPlaying(true)
@@ -47,12 +60,18 @@ function Play() {
                 synth.triggerAttackRelease(note, 0.1, time)
 
             }, notes, pattern)
+
+            const kickSequence = new Tone.Sequence((time, note) => {
+                kick.triggerAttackRelease(note, 0.1, time)
+            }, kicks)
+
             setSequence(timeSequence)
             Tone.start() // start tone audio context on user interaction per spec of web audio api
             // !START! 
             Tone.Transport.start();
             //seq.start()
             timeSequence.start()
+            kickSequence.start()
         }
         else {
             setIsPlaying(false)
@@ -99,9 +118,14 @@ function Play() {
         tom1.start()
     }
     
-    
+    const kick = new Tone.Sampler({
+        urls: {
+            C3: 'kick.mp3'
+        }, 
+        baseUrl: 'https://tonejs.github.io/audio/drum-samples/CR78/'
+    }).toDestination()
 
-    const kick = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/kick.mp3").toDestination()
+    //const kick = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/kick.mp3").toDestination()
 
     const snare = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/snare.mp3").toDestination()
 
@@ -131,7 +155,7 @@ function Play() {
             <p>Notes</p>
             <form>
             <select 
-            name="step" id="step0"
+            name="step0" id="step0"
              onChange={(e) => handleChange(0, e)}>
             <option value="A3">A3</option>
             <option value="A#3">A#3</option>
@@ -295,10 +319,10 @@ function Play() {
             <br></br> 
             <div className='drumSequencer'>
             <p>kick</p>
-            <input  type="checkbox"/>
-            <input type="checkbox" />
-            <input type="checkbox" />
-            <input type="checkbox" />
+            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(0, e))}/>
+            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(1, e))}/>
+            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(2, e))}/>
+            <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(3, e))}/>
             <br></br>
             <p>snare</p>
             <input type="checkbox" />
