@@ -7,6 +7,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   // GET route code here
+
 });
 
 /**
@@ -14,6 +15,16 @@ router.get('/', (req, res) => {
  */
 router.post('/', (req, res) => {
   // POST route code here
+  console.log('made it to server', req.body);
+  
 });
+
+router.put('/', (req, res) => {
+
+})
+
+router.delete('/', (req, res) => {
+
+})
 
 module.exports = router;

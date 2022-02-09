@@ -1,21 +1,33 @@
 import * as Tone from 'tone'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
+
 function Play() {
+    const userId = useSelector(store => store.user.id);
     let [sequence, setSequence] = useState(null)
-    let [notes, setNotes] = useState(["C3", "C4", "C5", "C4", "C3", "C4", "C5", "C4",])
+    let [notes, setNotes] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
     const [kicks, setKicks] = useState([null, null, null, null, null, null, null, null,])
     const [snares, setSnares] = useState([null, null, null, null, null, null, null, null,])
     const [hats, setHats] = useState([null, null, null, null, null, null, null, null,])
     const [toms, setToms] = useState([null, null, null, null, null, null, null, null,])
     let [oscil, setOscil] = useState('sine')
     let [pattern, setPattern] = useState('up')
-    console.log(toms);
+    let [presetName, setPresetName] = useState('')
     const [isPlaying, setIsPlaying] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('play')
     let [bpm, setBpm] = useState(80)
     Tone.Transport.bpm.value = bpm
 
     const volumeNode = new Tone.Volume(-5).toDestination();
+
+    const savePresetAs = () => {
+        
+        axios.post('/api/preset', {
+            presetName, notes, userId
+        })
+    }
+
     const synth = new Tone.MonoSynth({
         oscillator: {
             //can be sine, square, tri or saw
@@ -185,6 +197,8 @@ function Play() {
     }).toDestination()
 
 
+    
+
     //const kick = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/kick.mp3").toDestination()
 
     //const snare = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/snare.mp3").toDestination()
@@ -208,10 +222,10 @@ function Play() {
     return (
         <>
 
-
             <h1>Dammit bobby, play your dang synths</h1>
             <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
             <br></br>
+            <button onClick={transport}>{playButtonText}</button>
             <p>Notes</p>
             <form>
                 <select
@@ -370,7 +384,7 @@ function Play() {
             </form>
 
 
-            <button onClick={transport}>{playButtonText}</button>
+            
             <br></br>
             <p>drums</p>
             <br></br>
@@ -415,6 +429,8 @@ function Play() {
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(6, e) }} />
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(7, e) }} />
             </div>
+            <input type="text"  placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
+            <button onClick={savePresetAs}>Save Preset As</button>
 
         </>
     )
