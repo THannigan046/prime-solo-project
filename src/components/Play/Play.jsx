@@ -109,6 +109,7 @@ function Play() {
 
     const tom1 = new Tone.Player("https://tonejs.github.io/audio/drum-samples/CR78/tom1.mp3").toDestination()
     
+    
     /* const drumSet = new Tone.Players({
         urls: {
             0: "kick.mp3",
@@ -132,82 +133,130 @@ function Play() {
             <select 
             name="step" id="step0"
              onChange={(e) => handleChange(0, e)}>
+            <option value="A3">A3</option>
+            <option value="A#3">A#3</option>
+            <option value="B3">B3</option>
             <option value="C3">C3</option>
+            <option value="C#3">C#3</option>
             <option value="D3">D3</option>
+            <option value="D#3">D#3</option>
             <option value="E3">E3</option>
+            <option value="F3">F3</option>
+            <option value="F#3">F#3</option>
             <option value="G3">G3</option>
-            <option value="A4">A4</option>
-            <option value="C4">C4</option>
+            <option value="G#3">G#3</option>
             </select>
             <select
                 name="step1" id="step1"
                     onChange={(e) => handleChange(1, e)}>
-                <option value="C3">C3</option>
-                <option value="D3">D3</option>
-                <option value="E3">E3</option>
-                <option value="G3">G3</option>
-                <option value="A4">A4</option>
-                <option value="C4">C4</option>
+                    <option value="A3">A3</option>
+                    <option value="A#3">A#3</option>
+                    <option value="B3">B3</option>
+                    <option value="C3">C3</option>
+                    <option value="C#3">C#3</option>
+                    <option value="D3">D3</option>
+                    <option value="D#3">D#3</option>
+                    <option value="E3">E3</option>
+                    <option value="F3">F3</option>
+                    <option value="F#3">F#3</option>
+                    <option value="G3">G3</option>
+                    <option value="G#3">G#3</option>
             </select>
             <select
                 name="step2" id="step2"
                     onChange={(e) => handleChange(2, e)}>
-                <option value="C3">C3</option>
-                <option value="D3">D3</option>
-                <option value="E3">E3</option>
-                <option value="G3">G3</option>
-                <option value="A4">A4</option>
-                <option value="C4">C4</option>
+                    <option value="A3">A3</option>
+                    <option value="A#3">A#3</option>
+                    <option value="B3">B3</option>
+                    <option value="C3">C3</option>
+                    <option value="C#3">C#3</option>
+                    <option value="D3">D3</option>
+                    <option value="D#3">D#3</option>
+                    <option value="E3">E3</option>
+                    <option value="F3">F3</option>
+                    <option value="F#3">F#3</option>
+                    <option value="G3">G3</option>
+                    <option value="G#3">G#3</option>
             </select>
             <select
                 name="step3" id="step3"
                     onChange={(e) => handleChange(3, e)}>
-                <option value="C3">C3</option>
-                <option value="D3">D3</option>
-                <option value="E3">E3</option>
-                <option value="G3">G3</option>
-                <option value="A4">A4</option>
-                <option value="C4">C4</option>
+                    <option value="A3">A3</option>
+                    <option value="A#3">A#3</option>
+                    <option value="B3">B3</option>
+                    <option value="C3">C3</option>
+                    <option value="C#3">C#3</option>
+                    <option value="D3">D3</option>
+                    <option value="D#3">D#3</option>
+                    <option value="E3">E3</option>
+                    <option value="F3">F3</option>
+                    <option value="F#3">F#3</option>
+                    <option value="G3">G3</option>
+                    <option value="G#3">G#3</option>
             </select>
                 <select
                     name="step4" id="step4"
                     onChange={(e) => handleChange(4, e)}>
+                    <option value="A3">A3</option>
+                    <option value="A#3">A#3</option>
+                    <option value="B3">B3</option>
                     <option value="C3">C3</option>
+                    <option value="C#3">C#3</option>
                     <option value="D3">D3</option>
+                    <option value="D#3">D#3</option>
                     <option value="E3">E3</option>
+                    <option value="F3">F3</option>
+                    <option value="F#3">F#3</option>
                     <option value="G3">G3</option>
-                    <option value="A4">A4</option>
-                    <option value="C4">C4</option>
+                    <option value="G#3">G#3</option>
                 </select>
                 <select
                     name="step5" id="step5"
                     onChange={(e) => handleChange(5, e)}>
+                    <option value="A3">A3</option>
+                    <option value="A#3">A#3</option>
+                    <option value="B3">B3</option>
                     <option value="C3">C3</option>
+                    <option value="C#3">C#3</option>
                     <option value="D3">D3</option>
+                    <option value="D#3">D#3</option>
                     <option value="E3">E3</option>
+                    <option value="F3">F3</option>
+                    <option value="F#3">F#3</option>
                     <option value="G3">G3</option>
-                    <option value="A4">A4</option>
-                    <option value="C4">C4</option>
+                    <option value="G#3">G#3</option>
                 </select>
                 <select
                     name="step6" id="step6"
                     onChange={(e) => handleChange(6, e)}>
+                    <option value="A3">A3</option>
+                    <option value="A#3">A#3</option>
+                    <option value="B3">B3</option>
                     <option value="C3">C3</option>
+                    <option value="C#3">C#3</option>
                     <option value="D3">D3</option>
+                    <option value="D#3">D#3</option>
                     <option value="E3">E3</option>
+                    <option value="F3">F3</option>
+                    <option value="F#3">F#3</option>
                     <option value="G3">G3</option>
-                    <option value="A4">A4</option>
-                    <option value="C4">C4</option>
+                    <option value="G#3">G#3</option>
                 </select>
                 <select
                     name="step7" id="step7"
                     onChange={(e) => handleChange(7, e)}>
+                    <option value="A3">A3</option>
+                    <option value="A#3">A#3</option>
+                    <option value="B3">B3</option>
                     <option value="C3">C3</option>
+                    <option value="C#3">C#3</option>
                     <option value="D3">D3</option>
+                    <option value="D#3">D#3</option>
                     <option value="E3">E3</option>
+                    <option value="F3">F3</option>
+                    <option value="F#3">F#3</option>
                     <option value="G3">G3</option>
-                    <option value="A4">A4</option>
-                    <option value="C4">C4</option>
+                    <option value="G#3">G#3</option>
                 </select>
                 <select
                     name="oscType" id="oscType"
