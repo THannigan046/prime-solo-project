@@ -3,7 +3,7 @@ import { put, takeLatest, takeEvery } from 'redux-saga/effects';
 
 
 function* presetSaga() {
-    
+    yield takeLatest ('FETCH_ACTIVE_PRESET', fetchActivePreset)
     yield takeEvery('FETCH_PRESETS', fetchPresets)
     yield takeEvery('SAVE_PRESET_AS', savePresetAs)
     yield takeEvery('DELETE_PRESET', deletePreset)
@@ -11,6 +11,13 @@ function* presetSaga() {
 }
 
 
+function* fetchActivePreset(action) {
+    const res = yield axios.get(`/api/preset/${action.payload}`)
+    yield put({
+        type: 'SET_ACTIVE_PRESET',
+        payload: res.data
+    })
+}
 function* savePreset(action) {
     yield axios.put(`/api/preset/${action.payload.id}`, action.payload)
     yield put({

@@ -2,13 +2,14 @@ import * as Tone from 'tone'
 import react, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom';
 function Presets () {
+    const history = useHistory()
     const dispatch = useDispatch()
     const user = useSelector(store => store.user)
     const presetList = useSelector(store => store.presetList)
     console.log('presetLit is', presetList);
     //let [presetList, setPresetList] = useState([])
-
     useEffect(() => {
         Tone.Transport.stop()
         Tone.Transport.cancel()
@@ -30,7 +31,9 @@ function Presets () {
         }) */
         
     }
-
+    const toEdit = (id) => {
+        history.push(`/presets/${id}/edit`)
+    }
     const deletePreset = (id) => {
         dispatch({
             type: 'DELETE_PRESET',
@@ -51,7 +54,7 @@ function Presets () {
             
         <ul>
             {Array.isArray(presetList) ? presetList.map(preset => (
-                <li key={preset.id}>{preset.name} <button>load</button> <button onClick={() => deletePreset(preset.id)}>delete</button></li>
+                <li key={preset.id}>{preset.name} <button>Load</button> <button onClick={() => {toEdit(preset.id)}}>Edit</button> <button onClick={() => deletePreset(preset.id)}>delete</button></li>
             )) : <p>loading</p>}
         </ul>
         </>

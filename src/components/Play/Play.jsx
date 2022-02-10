@@ -6,18 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 function Play() {
     const dispatch = useDispatch();
     const userId = useSelector(store => store.user.id);
-    let [sequence, setSequence] = useState(null)
-    let [notes, setNotes] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
+    const [sequence, setSequence] = useState(null)
+    const [notes, setNotes] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
     const [kicks, setKicks] = useState([null, null, null, null, null, null, null, null,])
     const [snares, setSnares] = useState([null, null, null, null, null, null, null, null,])
     const [hats, setHats] = useState([null, null, null, null, null, null, null, null,])
     const [toms, setToms] = useState([null, null, null, null, null, null, null, null,])
-    let [oscil, setOscil] = useState('sine')
-    let [pattern, setPattern] = useState('up')
-    let [presetName, setPresetName] = useState('')
+    const [oscil, setOscil] = useState('sine')
+    const [pattern, setPattern] = useState('up')
+    const [presetName, setPresetName] = useState('')
     const [isPlaying, setIsPlaying] = useState(false)
     const [playButtonText, setPlayButtonText] = useState('play')
-    let [bpm, setBpm] = useState(80)
+    const [bpm, setBpm] = useState(80)
     Tone.Transport.bpm.value = bpm
 
     const volumeNode = new Tone.Volume(-5).toDestination();
