@@ -23,7 +23,22 @@ function Play() {
     const volumeNode = new Tone.Volume(-5).toDestination();
 
     const savePresetAs = () => {
-        axios.post('/api/preset', {
+        dispatch({
+            type: 'SAVE_PRESET_AS',
+            payload: {
+               name: presetName,
+               notes: notes, 
+               kicks: kicks, 
+               snares: snares, 
+               hats: hats, 
+               toms: toms, 
+               oscil: oscil, 
+               pattern: pattern, 
+               bpm: bpm, 
+               userId: userId
+            }
+        })
+        /* axios.post('/api/preset', {
             presetName, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId
         }).then(() => {
             console.log('post success');
@@ -31,7 +46,7 @@ function Play() {
         }).catch((err) => {
             console.log('post failed', err);
             alert('ya dun goofed, try again')
-        })
+        }) */
     }
 
     const synth = new Tone.MonoSynth({

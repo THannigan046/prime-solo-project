@@ -25,6 +25,8 @@ function * deletePreset(action) {
 }
 
 function* savePresetAs(action) {
+    console.log('action.payload is', action.payload);
+    
     yield axios.post('/api/preset', action.payload)
     yield put ({ type: 'FETCH_PRESETS'})
 }

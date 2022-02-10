@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   // POST route code here
   console.log('made it to server', req.body);
-  const name = req.body.presetName
+  const name = req.body.name
   const notes = req.body.notes
   const kicks = req.body.kicks
   const snares = req.body.snares
