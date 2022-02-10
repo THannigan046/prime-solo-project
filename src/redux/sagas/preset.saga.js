@@ -18,9 +18,10 @@ function* savePreset(action) {
     })
 }
 function * deletePreset(action) {
-    yield axios.delete(`/api/preset/${action.payload.id}`, action.payload)
+   let response = yield axios.delete(`/api/preset/${action.payload}`)
     yield put({
-        type: 'FETCH_PRESETS'
+        type: 'FETCH_PRESETS',
+        payload: response.data
     })
 }
 

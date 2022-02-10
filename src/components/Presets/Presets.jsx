@@ -32,12 +32,16 @@ function Presets () {
     }
 
     const deletePreset = (id) => {
-        console.log('id is', id);
+        dispatch({
+            type: 'DELETE_PRESET',
+            payload: id
+        })
+        /* console.log('id is', id);
         axios.delete(`/api/preset/${id}`)
         .then((res) => {
             console.log('delete success', res);
             getPresets()
-        })
+        }) */
     }
     return(
         <>
