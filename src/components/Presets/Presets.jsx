@@ -3,8 +3,11 @@ import react, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
 function Presets () {
+    const dispatch = useDispatch()
     const user = useSelector(store => store.user)
-    let [presetList, setPresetList] = useState([])
+    const presetList = useSelector(store => store.presetList)
+    console.log('presetLit is', presetList);
+    //let [presetList, setPresetList] = useState([])
 
     useEffect(() => {
         Tone.Transport.stop()
@@ -13,7 +16,10 @@ function Presets () {
     }, [])
 
     const getPresets = () => {
-        axios({
+        dispatch({
+            type: 'FETCH_PRESETS'
+        })
+        /* axios({
             method: 'GET', 
             url: '/api/preset'
         }).then(res => {
@@ -21,7 +27,7 @@ function Presets () {
             setPresetList(res.data)
         }).catch(err => {
             console.log('get err', err);
-        })
+        }) */
         
     }
 
@@ -40,9 +46,9 @@ function Presets () {
             <img src="https://i1.sndcdn.com/artworks-000191633248-ye4tjs-t500x500.jpg"/>
             
         <ul>
-            {presetList.map(preset => (
+            {Array.isArray(presetList) ? presetList.map(preset => (
                 <li key={preset.id}>{preset.name} <button>load</button> <button onClick={() => deletePreset(preset.id)}>delete</button></li>
-            ))}
+            )) : <p>loading</p>}
         </ul>
         </>
     )

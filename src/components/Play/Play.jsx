@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 
 function Play() {
+    const dispatch = useDispatch();
     const userId = useSelector(store => store.user.id);
     let [sequence, setSequence] = useState(null)
     let [notes, setNotes] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
