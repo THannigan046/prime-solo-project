@@ -8,7 +8,6 @@ function Presets () {
     const dispatch = useDispatch()
     const user = useSelector(store => store.user)
     const presetList = useSelector(store => store.presetList)
-    console.log('presetLit is', presetList);
     //let [presetList, setPresetList] = useState([])
     useEffect(() => {
         Tone.Transport.stop()
@@ -20,16 +19,6 @@ function Presets () {
         dispatch({
             type: 'FETCH_PRESETS'
         })
-        /* axios({
-            method: 'GET', 
-            url: '/api/preset'
-        }).then(res => {
-            console.log('response is', res.data);
-            setPresetList(res.data)
-        }).catch(err => {
-            console.log('get err', err);
-        }) */
-        
     }
     const toEdit = (id) => {
         history.push(`/presets/${id}/edit`)
@@ -39,12 +28,6 @@ function Presets () {
             type: 'DELETE_PRESET',
             payload: id
         })
-        /* console.log('id is', id);
-        axios.delete(`/api/preset/${id}`)
-        .then((res) => {
-            console.log('delete success', res);
-            getPresets()
-        }) */
     }
     return(
         <>

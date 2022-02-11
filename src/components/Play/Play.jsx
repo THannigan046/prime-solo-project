@@ -2,8 +2,9 @@ import * as Tone from 'tone'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
-
+import { useHistory } from 'react-router-dom';
 function Play() {
+    const history = useHistory()
     const dispatch = useDispatch();
     const userId = useSelector(store => store.user.id);
     const [sequence, setSequence] = useState(null)
@@ -19,9 +20,30 @@ function Play() {
     const [playButtonText, setPlayButtonText] = useState('play')
     const [bpm, setBpm] = useState(80)
     Tone.Transport.bpm.value = bpm
-
+    const activePreset = useSelector(store => store.activePreset)
     const volumeNode = new Tone.Volume(-5).toDestination();
+    const presetList = useSelector(store => store.presetList)
 
+    console.log('activePreset is', activePreset);
+    const getPresets = () => {
+        dispatch({
+            type: 'FETCH_PRESETS'
+        })
+    }
+
+    const toEdit = (id) => {
+        history.push(`/presets/${id}/edit`)
+    }
+
+
+
+    useEffect(() => {
+        getPresets()
+        dispatch({
+            type: 'FETCH_ACTIVE_PRESET',
+            payload: 2
+        })
+    }, [])
     const savePresetAs = () => {
         dispatch({
             type: 'SAVE_PRESET_AS',
@@ -188,12 +210,27 @@ function Play() {
         baseUrl: 'https://tonejs.github.io/audio/drum-samples/CR78/'
     }).toDestination()
 
-
+    const loadPreset = (id) => {
+        console.log('in loadPreset, notes is', activePreset.notes);
+        dispatch({
+            type: 'FETCH_ACTIVE_PRESET',
+            payload: id 
+        })
+        /* setNotes(activePreset.notes)
+        setKicks(activePreset.kicks)
+        setSnares(activePreset.snares)
+        setHats(activePreset.hats)
+        setToms(activePreset.toms)
+        setOscil(activePreset.oscil)
+        setPattern(activePreset.pattern)
+        setBpm(activePreset.bpm) */
+    }
 
     return (
         <>
 
             <h1>Dammit bobby, play your dang synths</h1>
+            <h3>Active preset is: {activePreset.name} </h3>
             <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
             <br></br>
             <button onClick={transport}>{playButtonText}</button>
@@ -402,7 +439,13 @@ function Play() {
             </div>
             <input type="text" placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
             <button onClick={savePresetAs}>Save Preset As</button>
-            
+            <br></br>
+            <h2>Presets</h2>
+            <ul>
+                {Array.isArray(presetList) ? presetList.map(preset => (
+                    <li key={preset.id}>{preset.name} <button onClick={() => loadPreset(preset.id)}>Load</button> <button onClick={() => { toEdit(preset.id) }}>Edit</button> <button onClick={() => deletePreset(preset.id)}>delete</button></li>
+                )) : <p>loading</p>}
+            </ul>
 
         </>
     )
