@@ -216,14 +216,14 @@ function Play() {
             type: 'FETCH_ACTIVE_PRESET',
             payload: id 
         })
-        /* setNotes(activePreset.notes)
+        setNotes(activePreset.notes)
         setKicks(activePreset.kicks)
         setSnares(activePreset.snares)
         setHats(activePreset.hats)
         setToms(activePreset.toms)
         setOscil(activePreset.oscil)
         setPattern(activePreset.pattern)
-        setBpm(activePreset.bpm) */
+        setBpm(activePreset.bpm)
     }
 
     return (
