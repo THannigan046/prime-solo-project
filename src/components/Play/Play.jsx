@@ -4,6 +4,13 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 function Play() {
+    useEffect(() => {
+        getPresets()
+        dispatch({
+            type: 'FETCH_ACTIVE_PRESET',
+            payload: 2
+        })
+    }, [])
     const history = useHistory()
     const dispatch = useDispatch();
     const userId = useSelector(store => store.user.id);
@@ -24,7 +31,8 @@ function Play() {
     const volumeNode = new Tone.Volume(-5).toDestination();
     const presetList = useSelector(store => store.presetList)
 
-    console.log('activePreset is', activePreset);
+    let firstPreset = presetList
+    console.log('firstPreset is', firstPreset.id);
     const getPresets = () => {
         dispatch({
             type: 'FETCH_PRESETS'
@@ -37,13 +45,7 @@ function Play() {
 
 
 
-    useEffect(() => {
-        getPresets()
-        dispatch({
-            type: 'FETCH_ACTIVE_PRESET',
-            payload: 2
-        })
-    }, [])
+    
     const savePresetAs = () => {
         dispatch({
             type: 'SAVE_PRESET_AS',
