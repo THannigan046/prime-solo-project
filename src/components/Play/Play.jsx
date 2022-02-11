@@ -34,7 +34,7 @@ function Play() {
                toms: toms, 
                oscil: oscil, 
                pattern: pattern, 
-               bpm: bpm, 
+               bpm: bpm,
                userId: userId
             }
         })
@@ -402,7 +402,7 @@ function Play() {
             </div>
             <input type="text" placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
             <button onClick={savePresetAs}>Save Preset As</button>
-            <button>Save preset</button>
+            
 
         </>
     )

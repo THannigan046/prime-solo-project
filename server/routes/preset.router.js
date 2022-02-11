@@ -48,8 +48,53 @@ router.post('/', (req, res) => {
     })
 });
 
-router.put('/', (req, res) => {
+router.put('/:id', (req, res) => {
+  console.log('made it to server, id is', req.body.id);
+  const name = req.body.name
+  const notes = req.body.notes
+  const kicks = req.body.kicks
+  const snares = req.body.snares
+  const hats = req.body.hats
+  const toms = req.body.toms
+  const oscil = req.body.oscil
+  const pattern = req.body.pattern
+  const bpm = req.body.bpm
+  const id = req.body.id
+  const queryText = `UPDATE preset 
+  SET name = $1, notes = $2, kicks = $3, snares = $4, hats = $5, toms = $6, oscil = $7, pattern = $8, bpm = $9
+  WHERE id = $10
+  `;
+  let queryParams = [name, notes, kicks, snares, hats, toms, oscil, pattern, bpm, id]
+  pool.query(queryText, queryParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log('put error', error);
+      res.sendStatus(500);
+    })
+})
 
+router.get('/:id', (req, res) => {
+  const queryText = 
+  `SELECT * FROM PRESET WHERE ID = $1`
+
+  const queryParams = [req.params.id]
+
+  pool.query(queryText, queryParams)
+    .then(dbRes => {
+      if (dbRes.rows.length === 0 ) {
+        res.status(404).send({
+          message: `No preset found with id ${req.params.id}`
+        })
+        return;
+      }
+      res.send(dbRes.rows[0])
+    })
+    .catch(err => {
+      console.error('get by id failed', err)
+      res.sendStatus(500)
+    })
 })
 
 router.delete('/:id', (req, res) => {
