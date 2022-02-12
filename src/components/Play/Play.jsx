@@ -9,14 +9,13 @@ function Play() {
         getPresets()
     }, [])
 
-    
+    const activePreset = useSelector(store => store.activePreset)
     const presetList = useSelector(store => store.presetList)
     const history = useHistory()
     const dispatch = useDispatch();
     const userId = useSelector(store => store.user.id);
     const [sequence, setSequence] = useState(null)
     let notes = useSelector(store => store.config.noteReducer)
-    
     let kicks = useSelector(store => store.config.kickReducer)
     let snares = useSelector(store => store.config.snareReducer)
     let hats = useSelector(store => store.config.hatReducer)
@@ -94,7 +93,12 @@ function Play() {
 
     }).chain(volumeNode, Tone.Destination)
 
-
+    const deletePreset = (id) => {
+        dispatch({
+            type: 'DELETE_PRESET', 
+            payload: id
+        })
+    }
     // Declare handleChange
     const handleChange = (stepNumber, event) => {
         event.preventDefault()
@@ -242,19 +246,9 @@ function Play() {
     }).toDestination()
 
     const loadPreset = (id) => {
-        console.log('in loadPreset, notes is', activePreset);
-        dispatch({
-            type: 'FETCH_ACTIVE_PRESET',
-            payload: id 
-        })
-        /* setNotes(activePreset.notes)
-        setKicks(activePreset.kicks)
-        setSnares(activePreset.snares)
-        setHats(activePreset.hats)
-        setToms(activePreset.toms)
-        setOscil(activePreset.oscil)
-        setPattern(activePreset.pattern)
-        setBpm(activePreset.bpm) */
+        let presetToLoad = presetList[id]
+        console.log('presetToLoad is', presetToLoad);
+
     }
 
     return (

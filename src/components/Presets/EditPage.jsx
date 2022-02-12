@@ -6,57 +6,91 @@ function EditPage() {
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
-    const [notes, setNotes] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
-    const [kicks, setKicks] = useState([null, null, null, null, null, null, null, null,])
-    const [snares, setSnares] = useState([null, null, null, null, null, null, null, null,])
-    const [hats, setHats] = useState([null, null, null, null, null, null, null, null,])
-    const [toms, setToms] = useState([null, null, null, null, null, null, null, null,])
-    const [oscil, setOscil] = useState('sine')
-    const [pattern, setPattern] = useState('up')
-    const [presetName, setPresetName] = useState('')
-    const [bpm, setBpm] = useState(80)
+    useEffect(() => {
+        dispatch({
+            type: 'FETCH_ACTIVE_PRESET', 
+            payload: params.id 
+        })
+    }, [params.id])
+    let notes = useSelector(store => store.config.noteReducer)
+    let kicks = useSelector(store => store.config.kickReducer)
+    let snares = useSelector(store => store.config.snareReducer)
+    let hats = useSelector(store => store.config.hatReducer)
+    let toms = useSelector(store => store.config.tomReducer)
+    let oscil = useSelector(store => store.config.oscilReducer)
+    let pattern = useSelector(store => store.config.patternReducer)
+    let bpm = useSelector(store => store.config.bpmReducer)
+    let presetName = useSelector(store => store.config.presetName)
     const activePreset = useSelector(store => store.activePreset)
 
     
     const handleChange = (stepNumber, event) => {
-        setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
+        event.preventDefault()
+        const value = event.target.value
+        const notesToSend = [...notes.slice(0, stepNumber), value, ...notes.slice(stepNumber + 1)]
+        console.log('notesToSend is', notesToSend);
+        dispatch({
+            type: 'UPDATE_ACTIVE_PRESET',
+            payload: {notes: notesToSend}
+        })
     }
     const handleKickChange = (stepNumber, event) => {
+        event.preventDefault()
         let value = event.target.value
+
         /* console.log('stepnumber is', stepNumber);
         console.log('value is', value); */
         if (kicks[stepNumber] === value) {
             value = null
         }
+        const kicksToSend = [...kicks.slice(0, stepNumber), value, ...kicks.slice(stepNumber + 1)]
+        dispatch({
+            type: 'SET_KICKS',
+            payload: kicksToSend
+        })
 
-        setKicks([...kicks.slice(0, stepNumber), value, ...kicks.slice(stepNumber + 1)])
     }
 
     const handleSnareChange = (stepNumber, event) => {
+        event.preventDefault()
         let value = event.target.value
         if (snares[stepNumber] === value) {
             value = null
         }
 
-        setSnares([...snares.slice(0, stepNumber), value, ...snares.slice(stepNumber + 1)])
+        const snaresToSend = [...snares.slice(0, stepNumber), value, ...snares.slice(stepNumber + 1)]
+        dispatch({
+            type: 'SET_SNARES',
+            payload: snaresToSend
+        })
     }
 
     const handleHatChange = (stepNumber, event) => {
+        event.preventDefault()
         let value = event.target.value
         if (hats[stepNumber] === value) {
             value = null
         }
 
-        setHats([...hats.slice(0, stepNumber), value, ...hats.slice(stepNumber + 1)])
+        let hatsToSend = [...hats.slice(0, stepNumber), value, ...hats.slice(stepNumber + 1)]
+        dispatch({
+            type: 'SET_HATS',
+            payload: hatsToSend
+        })
     }
 
     const handleTomChange = (stepNumber, event) => {
+        event.preventDefault()
         let value = event.target.value
         if (toms[stepNumber] === value) {
             value = null
         }
 
-        setToms([...toms.slice(0, stepNumber), value, ...toms.slice(stepNumber + 1)])
+        let tomsToSend = [...toms.slice(0, stepNumber), value, ...toms.slice(stepNumber + 1)]
+        dispatch({
+            type: 'SET_TOMS',
+            payload: tomsToSend
+        })
     }
     
     const savePreset = () => {
@@ -75,32 +109,21 @@ function EditPage() {
                 id: activePreset.id
             }
         })
-        /* axios.post('/api/preset', {
-            presetName, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId
-        }).then(() => {
-            console.log('post success');
-            alert('Preset Saved!')
-        }).catch((err) => {
-            console.log('post failed', err);
-            alert('ya dun goofed, try again')
-        }) */
     }
-    useEffect(() => {
-        dispatch({
-            type: 'FETCH_ACTIVE_PRESET', 
-            payload: params.id 
-        })
+    
 
         
 
-    }, [params.id] )
+    
     return(
         <>
         <h1>this is an edit page</h1>
         <p>id is {params.id}</p>
-        <form>
+            <p>Notes</p>
+            <form>
                 <select
                     name="step0" id="step0"
+
                     onChange={(e) => handleChange(0, e)}>
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
@@ -230,7 +253,7 @@ function EditPage() {
                 </select>
                 <select
                     name="oscType" id="oscType"
-                    onChange={(e) => setOscil(e.target.value)}>
+                    onChange={(e) => dispatch({ type: 'SET_OSCIL', payload: e.target.value })}>
                     <option value="sine">Sine</option>
                     <option value="triangle">Triangle</option>
                     <option value="sawtooth">Saw</option>
@@ -239,7 +262,7 @@ function EditPage() {
                 </select>
                 <select
                     name='pattern' id='pattern'
-                    onChange={(e) => setPattern(e.target.value)}
+                    onChange={(e) => dispatch({ type: 'SET_PATTERN', payload: e.target.value })}
                 >
                     <option value="up">up</option>
                     <option value="down">down</option>
@@ -250,7 +273,7 @@ function EditPage() {
                     <option value='randomOnce'>randomOnce</option>
                 </select>
                 <input name='bpm' id='bpm'
-                    placeholder='bpm' onChange={(e) => setBpm(e.target.value)}
+                    placeholder='bpm' onChange={(e) => dispatch({ type: 'SET_BPM', payload: e.target.value })}
                 ></input>
             </form>
 
@@ -300,7 +323,7 @@ function EditPage() {
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(6, e) }} />
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(7, e) }} />
             </div>
-            <input type="text" placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
+            <input type="text" placeholder='name your preset' onChange={(e) => dispatch({ type: 'SET_PRESET_NAME', payload: e.target.value })} />
             <button onClick={savePreset}>Save</button>
  
         </>

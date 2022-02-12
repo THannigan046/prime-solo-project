@@ -14,7 +14,7 @@ function* presetSaga() {
 function* fetchActivePreset(action) {
     const res = yield axios.get(`/api/preset/${action.payload}`)
     yield put({
-        type: 'SET_ACTIVE_PRESET',
+        type: 'UPDATE_ACTIVE_PRESET',
         payload: res.data
     })
 }
