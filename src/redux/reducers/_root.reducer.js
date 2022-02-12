@@ -4,7 +4,7 @@ import user from './user.reducer';
 import preset from './preset.reducer';
 import presetList from './preset.list'
 import activePreset from './activePreset'
-import noteReducer from './note.reducer'
+import config from './config.reducer'
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   preset, 
   presetList, 
   activePreset, 
-  noteReducer
+  config
 });
 
 export default rootReducer;

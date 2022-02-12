@@ -15,13 +15,12 @@ function Play() {
     const dispatch = useDispatch();
     const userId = useSelector(store => store.user.id);
     const [sequence, setSequence] = useState(null)
-    let [notesToSend, setNotesToSend] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
-    let notes = useSelector(store => store.noteReducer)
+    let notes = useSelector(store => store.config.noteReducer)
     
-    let [kicks, setKicks] = useState([null, null, null, null, null, null, null, null,])
-    let [snares, setSnares] = useState([null, null, null, null, null, null, null, null,])
-    let [hats, setHats] = useState([null, null, null, null, null, null, null, null,])
-    let [toms, setToms] = useState([null, null, null, null, null, null, null, null,])
+    let kicks = useSelector(store => store.config.kickReducer)
+    let snares = useSelector(store => store.config.snareReducer)
+    let hats = useSelector(store => store.config.hatReducer)
+    let toms = useSelector(store => store.config.tomReducer)
     let [oscil, setOscil] = useState('sine')
     let [pattern, setPattern] = useState('up')
     let [presetName, setPresetName] = useState('')
@@ -107,41 +106,62 @@ function Play() {
         })
     }
     const handleKickChange = (stepNumber, event) => {
+        event.preventDefault()
         let value = event.target.value
+        
         /* console.log('stepnumber is', stepNumber);
         console.log('value is', value); */
         if (kicks[stepNumber] === value) {
             value = null
         }
-
-        setKicks([...kicks.slice(0, stepNumber), value, ...kicks.slice(stepNumber + 1)])
+        const kicksToSend = [...kicks.slice(0, stepNumber), value, ...kicks.slice(stepNumber + 1)]
+        dispatch({
+            type: 'SET_KICKS', 
+            payload: kicksToSend
+        })
+        
     }
 
     const handleSnareChange = (stepNumber, event) => {
+        event.preventDefault()
         let value = event.target.value
         if (snares[stepNumber] === value) {
             value = null
         }
 
-        setSnares([...snares.slice(0, stepNumber), value, ...snares.slice(stepNumber + 1)])
+        const snaresToSend = [...snares.slice(0, stepNumber), value, ...snares.slice(stepNumber + 1)]
+        dispatch({
+            type: 'SET_SNARES',
+            payload: snaresToSend
+        })
     }
 
     const handleHatChange = (stepNumber, event) => {
+        event.preventDefault()
         let value = event.target.value
         if (hats[stepNumber] === value) {
             value = null
         }
 
-        setHats([...hats.slice(0, stepNumber), value, ...hats.slice(stepNumber + 1)])
+        let hatsToSend = [...hats.slice(0, stepNumber), value, ...hats.slice(stepNumber + 1)]
+        dispatch({
+            type: 'SET_HATS', 
+            payload: hatsToSend
+        })
     }
 
     const handleTomChange = (stepNumber, event) => {
+        event.preventDefault()
         let value = event.target.value
         if (toms[stepNumber] === value) {
             value = null
         }
 
-        setToms([...toms.slice(0, stepNumber), value, ...toms.slice(stepNumber + 1)])
+        let tomsToSend = [...toms.slice(0, stepNumber), value, ...toms.slice(stepNumber + 1)]
+        dispatch({
+            type: 'SET_TOMS', 
+            payload: tomsToSend
+        })
     }
 
 
@@ -248,7 +268,7 @@ function Play() {
             <form>
                 <select
                     name="step0" id="step0"
-                    value={notes[0]}
+                    
                     onChange={(e) => handleChange(0, e)}>
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
