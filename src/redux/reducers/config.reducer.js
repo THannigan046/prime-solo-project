@@ -63,6 +63,14 @@ const presetName = (state = '', action) => {
     }
     return state
 }
+
+const bpmReducer = (state = '120', action) => {
+    switch (action.type) {
+        case 'SET_BPM':
+            return action.payload
+    }
+    return state
+}
     
 export default combineReducers({
     noteReducer, 
@@ -72,5 +80,6 @@ export default combineReducers({
     tomReducer, 
     oscilReducer, 
     patternReducer, 
-    presetName
+    presetName, 
+    bpmReducer
 })

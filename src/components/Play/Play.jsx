@@ -21,12 +21,13 @@ function Play() {
     let snares = useSelector(store => store.config.snareReducer)
     let hats = useSelector(store => store.config.hatReducer)
     let toms = useSelector(store => store.config.tomReducer)
-    let [oscil, setOscil] = useState('sine')
-    let [pattern, setPattern] = useState('up')
-    let [presetName, setPresetName] = useState('')
+    let oscil = useSelector(store => store.config.oscilReducer)
+    let pattern = useSelector(store => store.config.patternReducer)
+    let bpm = useSelector(store => store.config.bpmReducer)
+    let presetName = useSelector(store => store.config.presetName)
     let [isPlaying, setIsPlaying] = useState(false)
     let [playButtonText, setPlayButtonText] = useState('play')
-    let [bpm, setBpm] = useState(80)
+    
     Tone.Transport.bpm.value = bpm
     
     
@@ -241,7 +242,7 @@ function Play() {
     }).toDestination()
 
     const loadPreset = (id) => {
-        console.log('in loadPreset, notes is', activePreset.notes);
+        console.log('in loadPreset, notes is', activePreset);
         dispatch({
             type: 'FETCH_ACTIVE_PRESET',
             payload: id 
@@ -398,7 +399,7 @@ function Play() {
                 </select>
                 <select
                     name="oscType" id="oscType"
-                    onChange={(e) => setOscil(e.target.value)}>
+                    onChange={(e) => dispatch({type: 'SET_OSCIL', payload: e.target.value})}>
                     <option value="sine">Sine</option>
                     <option value="triangle">Triangle</option>
                     <option value="sawtooth">Saw</option>
@@ -407,10 +408,10 @@ function Play() {
                 </select>
                 <select
                     name='pattern' id='pattern'
-                    onChange={(e) => setPattern(e.target.value)}
+                    onChange={(e) => dispatch({type: 'SET_PATTERN', payload: e.target.value})}
                 >
                     <option value="up">up</option>
-                    <option value="down">down</option>
+                    <option value="down">down</option> 
                     <option value="upDown">upDown</option>
                     <option value='downUp'>downUp</option>
                     <option value='random'>random</option>
@@ -418,7 +419,7 @@ function Play() {
                     <option value='randomOnce'>randomOnce</option>
                 </select>
                 <input name='bpm' id='bpm'
-                    placeholder='bpm' onChange={(e) => setBpm(e.target.value)}
+                    placeholder='bpm' onChange={(e) => dispatch({type: 'SET_BPM', payload: e.target.value})}
                 ></input>
             </form>
 
@@ -468,7 +469,7 @@ function Play() {
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(6, e) }} />
                 <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(7, e) }} />
             </div>
-            <input type="text" placeholder='name your preset' onChange={(e) => setPresetName(e.target.value)} />
+            <input type="text" placeholder='name your preset' onChange={(e) => dispatch({type: 'SET_PRESET_NAME', payload: e.target.value})} />
             <button onClick={savePresetAs}>Save Preset As</button>
             <br></br>
             <h2>Presets</h2>
