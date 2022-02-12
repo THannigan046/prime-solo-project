@@ -4,35 +4,38 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 function Play() {
+
     useEffect(() => {
         getPresets()
-        dispatch({
-            type: 'FETCH_ACTIVE_PRESET',
-            payload: 2
-        })
     }, [])
+
+    
+    const presetList = useSelector(store => store.presetList)
     const history = useHistory()
     const dispatch = useDispatch();
     const userId = useSelector(store => store.user.id);
     const [sequence, setSequence] = useState(null)
-    const [notes, setNotes] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
-    const [kicks, setKicks] = useState([null, null, null, null, null, null, null, null,])
-    const [snares, setSnares] = useState([null, null, null, null, null, null, null, null,])
-    const [hats, setHats] = useState([null, null, null, null, null, null, null, null,])
-    const [toms, setToms] = useState([null, null, null, null, null, null, null, null,])
-    const [oscil, setOscil] = useState('sine')
-    const [pattern, setPattern] = useState('up')
-    const [presetName, setPresetName] = useState('')
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [playButtonText, setPlayButtonText] = useState('play')
-    const [bpm, setBpm] = useState(80)
+    let [notesToSend, setNotesToSend] = useState(["A3", "A3", "A3", "A3", "A3", "A3", "A3", "A3",])
+    let notes = useSelector(store => store.noteReducer)
+    
+    let [kicks, setKicks] = useState([null, null, null, null, null, null, null, null,])
+    let [snares, setSnares] = useState([null, null, null, null, null, null, null, null,])
+    let [hats, setHats] = useState([null, null, null, null, null, null, null, null,])
+    let [toms, setToms] = useState([null, null, null, null, null, null, null, null,])
+    let [oscil, setOscil] = useState('sine')
+    let [pattern, setPattern] = useState('up')
+    let [presetName, setPresetName] = useState('')
+    let [isPlaying, setIsPlaying] = useState(false)
+    let [playButtonText, setPlayButtonText] = useState('play')
+    let [bpm, setBpm] = useState(80)
     Tone.Transport.bpm.value = bpm
-    const activePreset = useSelector(store => store.activePreset)
+    
+    
+    // console.log('presetList [0] is', presetList[0]);
     const volumeNode = new Tone.Volume(-5).toDestination();
-    const presetList = useSelector(store => store.presetList)
-
-    let firstPreset = presetList
-    console.log('firstPreset is', firstPreset.id);
+    
+    
+    
     const getPresets = () => {
         dispatch({
             type: 'FETCH_PRESETS'
@@ -92,11 +95,16 @@ function Play() {
     }).chain(volumeNode, Tone.Destination)
 
 
-
-
     // Declare handleChange
     const handleChange = (stepNumber, event) => {
-        setNotes([...notes.slice(0, stepNumber), event.target.value, ...notes.slice(stepNumber + 1)])
+        event.preventDefault()
+        const value = event.target.value
+        const notesToSend = [...notes.slice(0, stepNumber), value, ...notes.slice(stepNumber + 1)]
+        console.log('notesToSend is', notesToSend);
+        dispatch({
+            type: 'SET_NOTES', 
+            payload: notesToSend
+        })
     }
     const handleKickChange = (stepNumber, event) => {
         let value = event.target.value
@@ -218,21 +226,21 @@ function Play() {
             type: 'FETCH_ACTIVE_PRESET',
             payload: id 
         })
-        setNotes(activePreset.notes)
+        /* setNotes(activePreset.notes)
         setKicks(activePreset.kicks)
         setSnares(activePreset.snares)
         setHats(activePreset.hats)
         setToms(activePreset.toms)
         setOscil(activePreset.oscil)
         setPattern(activePreset.pattern)
-        setBpm(activePreset.bpm)
+        setBpm(activePreset.bpm) */
     }
 
     return (
         <>
 
             <h1>Dammit bobby, play your dang synths</h1>
-            <h3>Active preset is: {activePreset.name} </h3>
+            {/* <h3>Active preset is: {activePreset.name} </h3> */}
             <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
             <br></br>
             <button onClick={transport}>{playButtonText}</button>
@@ -240,6 +248,7 @@ function Play() {
             <form>
                 <select
                     name="step0" id="step0"
+                    value={notes[0]}
                     onChange={(e) => handleChange(0, e)}>
                     <option value="A3">A3</option>
                     <option value="A#3">A#3</option>
