@@ -1,11 +1,16 @@
-import React from 'react';
-
+import React, {useState, useEffect} from 'react';
+import * as Tone from 'tone'
 // This is one of our simplest components
 // It doesn't have local state,
 // It doesn't dispatch any redux actions or display any part of redux state
 // or even care what the redux state is'
 
 function AboutPage() {
+
+  useEffect(() => {
+    Tone.Transport.stop()
+    Tone.Transport.cancel()
+  }, []) 
   return (
     <div className="container">
       <div>

@@ -7,8 +7,8 @@ function Play() {
 
     useEffect(() => {
         getPresets()
-    }, [])
-
+    }, []) 
+    const preset = useSelector(store => store.presetReducer)
     const activePreset = useSelector(store => store.activePreset)
     const presetList = useSelector(store => store.presetList)
     const history = useHistory()
@@ -43,6 +43,8 @@ function Play() {
 
     const toEdit = (id) => {
         history.push(`/presets/${id}/edit`)
+        Tone.Transport.stop()
+        Tone.Transport.cancel()
     }
 
 
@@ -64,15 +66,6 @@ function Play() {
                userId: userId
             }
         })
-        /* axios.post('/api/preset', {
-            presetName, notes, kicks, snares, hats, toms, oscil, pattern, bpm, userId
-        }).then(() => {
-            console.log('post success');
-            alert('Preset Saved!')
-        }).catch((err) => {
-            console.log('post failed', err);
-            alert('ya dun goofed, try again')
-        }) */
     }
 
     const synth = new Tone.MonoSynth({
@@ -246,9 +239,41 @@ function Play() {
     }).toDestination()
 
     const loadPreset = (id) => {
-        let presetToLoad = presetList[id]
-        console.log('presetToLoad is', presetToLoad);
+        
+        axios.get(`api/preset/${id}`)
+        .then((res) => {
+            console.log('response is', res.data);
+            dispatch({
+                type: 'SET_BPM', 
+                payload: res.data.bpm
+            })
+            dispatch({
+                type: 'SET_TOMS',
+                payload: res.data.toms
+            })
+            dispatch({
+                type: 'SET_HATS',
+                payload: res.data.hats
+            })
+            dispatch({
+                type: 'SET_SNARES',
+                payload: res.data.snares
+            })
+            dispatch({
+                type: 'SET_KICKS',
+                payload: res.data.kicks
+            })
+            dispatch({
+                type: 'SET_NOTES',
+                payload: res.data.notes
+            })
 
+            dispatch({ type: 'SET_PATTERN', payload: res.data.pattern })
+
+            dispatch({ type: 'SET_OSCIL', payload: res.data.oscil })
+        })  
+        
+        
     }
 
     return (

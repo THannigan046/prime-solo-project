@@ -30,8 +30,8 @@ function EditPage() {
         const notesToSend = [...notes.slice(0, stepNumber), value, ...notes.slice(stepNumber + 1)]
         console.log('notesToSend is', notesToSend);
         dispatch({
-            type: 'UPDATE_ACTIVE_PRESET',
-            payload: {notes: notesToSend}
+            type: 'SET_NOTES',
+            payload: notesToSend
         })
     }
     const handleKickChange = (stepNumber, event) => {
@@ -119,6 +119,7 @@ function EditPage() {
         <>
         <h1>this is an edit page</h1>
         <p>id is {params.id}</p>
+        <p>active preset is {activePreset.name}</p>
             <p>Notes</p>
             <form>
                 <select
