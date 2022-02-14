@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import {Button, Checkbox} from '@mui/material'
 function Play() {
 
     useEffect(() => {
@@ -278,7 +279,7 @@ function Play() {
         
         
     }
-
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     return (
         <>
 
@@ -287,7 +288,7 @@ function Play() {
             {/* <h3>Active preset is: {activePreset.name} </h3> */}
             <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
             <br></br>
-            <button onClick={transport}>{playButtonText}</button>
+            <Button onClick={transport}>{playButtonText}</Button>
             <p>Notes</p>
             <form>
                 <select
@@ -453,52 +454,52 @@ function Play() {
             <br></br>
             <div className='drumSequencer'>
                 <p>kick</p>
-                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(0, e))} />
-                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(1, e))} />
-                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(2, e))} />
-                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(3, e))} />
-                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(4, e))} />
-                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(5, e))} />
-                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(6, e))} />
-                <input type="checkbox" value="C3" onChange={(e) => (handleKickChange(7, e))} />
+                <Checkbox {...label}  size='medium' value="C3" onChange={(e) => (handleKickChange(0, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(1, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(2, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(3, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(4, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(5, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(6, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(7, e))} />
                 <br></br>
                 <p>snare</p>
-                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(0, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(1, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(2, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(3, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(4, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(5, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(6, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleSnareChange(7, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(0, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(1, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(2, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(3, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(4, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(5, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(6, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(7, e))} />
                 <br></br>
                 <p>hihat</p>
-                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(0, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(1, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(2, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(3, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(4, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(5, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(6, e))} />
-                <input type="checkbox" value='C3' onChange={(e) => (handleHatChange(7, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(0, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(1, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(2, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(3, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(4, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(5, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(6, e))} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(7, e))} />
                 <br></br>
                 <p>tom1</p>
-                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(0, e) }} />
-                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(1, e) }} />
-                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(2, e) }} />
-                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(3, e) }} />
-                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(4, e) }} />
-                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(5, e) }} />
-                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(6, e) }} />
-                <input type="checkbox" value='C3' onChange={(e) => { handleTomChange(7, e) }} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(0, e) }} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(1, e) }} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(2, e) }} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(3, e) }} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(4, e) }} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(5, e) }} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(6, e) }} />
+                <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(7, e) }} />
             </div>
             <input type="text" placeholder='name your preset' onChange={(e) => dispatch({type: 'SET_PRESET_NAME', payload: e.target.value})} />
-            <button onClick={savePresetAs}>Save Preset As</button>
+            <Button onClick={savePresetAs}>Save Preset As</Button>
             <br></br>
             <h2>Presets</h2>
             <ul>
                 {Array.isArray(presetList) ? presetList.map(preset => (
-                    <li key={preset.id}>{preset.name} <button onClick={() => loadPreset(preset.id)}>Load</button> <button onClick={() => { toEdit(preset.id) }}>Edit</button> <button onClick={() => deletePreset(preset.id)}>delete</button></li>
+                    <li key={preset.id}>{preset.name} <Button onClick={() => loadPreset(preset.id)}>Load</Button> <Button onClick={() => { toEdit(preset.id) }}>Edit</Button> <Button onClick={() => deletePreset(preset.id)}>delete</Button></li>
                 )) : <p>loading</p>}
             </ul>
 
