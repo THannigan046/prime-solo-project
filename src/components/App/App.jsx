@@ -21,6 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import Play from '../Play/Play';
 import Presets from '../Presets/Presets'
+import EditPage from '../Presets/EditPage'
 
 import './App.css';
 
@@ -75,6 +76,12 @@ function App() {
           >
             <Presets/>
             </ProtectedRoute>  
+            <ProtectedRoute
+            exact
+            path="/presets/:id/edit"
+            >
+              <EditPage />
+            </ProtectedRoute>
           <ProtectedRoute
             exact
             path="/play"

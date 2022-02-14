@@ -12,7 +12,13 @@ CREATE TABLE "user" (
 CREATE TABLE "preset" (
     "id" SERIAL PRIMARY KEY, 
     "name" VARCHAR (200) UNIQUE NOT NULL,
-    "json_config" JSON, 
-    "state_config" VARCHAR (10000),
+    "notes" TEXT [],
+    "kicks" TEXT [],
+    "snares" TEXT [],
+    "hats" TEXT [],
+    "toms" TEXT [],
+    "oscil" VARCHAR (200), 
+    "pattern" VARCHAR (200), 
+    "bpm" INTEGER, 
     "user_id" int NOT NULL
-)
+);
