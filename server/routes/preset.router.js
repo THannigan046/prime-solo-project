@@ -16,6 +16,28 @@ router.get('/', (req, res) => {
     })
 });
 
+router.get('/:id', (req, res) => {
+  const queryText =
+    `SELECT * FROM PRESET WHERE ID = $1`
+
+  const queryParams = [req.params.id]
+
+  pool.query(queryText, queryParams)
+    .then(dbRes => {
+      if (dbRes.rows.length === 0) {
+        res.status(404).send({
+          message: `No preset found with id ${req.params.id}`
+        })
+        return;
+      }
+      res.send(dbRes.rows[0])
+    })
+    .catch(err => {
+      console.error('get by id failed', err)
+      res.sendStatus(500)
+    })
+})
+
 /**
  * POST route template
  */
