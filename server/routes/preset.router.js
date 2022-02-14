@@ -1,14 +1,14 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-
 /**
  * GET route template
  */
 router.get('/', (req, res) => {
   // GET route code here
-  const sqlText = `SELECT * FROM preset`
-  pool.query(sqlText)
+  const sqlText = `SELECT * FROM preset WHERE user_id = $1`
+  const sqlParams = [req.user.id]
+  pool.query(sqlText, sqlParams)
     .then((result) => {
       console.log('result is', result);
       res.send(result.rows)

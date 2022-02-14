@@ -8,8 +8,12 @@ function* presetSaga() {
     yield takeEvery('SAVE_PRESET_AS', savePresetAs)
     yield takeEvery('DELETE_PRESET', deletePreset)
     yield takeEvery('SAVE_PRESET', savePreset)
+    yield takeEvery('FETCH_USER_PRESETS', fetchUserPresets)
 }
 
+function* fetchUserPresets() {
+    
+}
 
 function* fetchActivePreset(action) {
     const res = yield axios.get(`/api/preset/${action.payload}`)
