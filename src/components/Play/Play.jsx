@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {Button, Checkbox} from '@mui/material'
+import {Button, Checkbox, Box, Stack, Slider} from '@mui/material'
 function Play() {
 
     useEffect(() => {
@@ -442,9 +442,14 @@ function Play() {
                     <option value='randomWalk'>randomWalk</option>
                     <option value='randomOnce'>randomOnce</option>
                 </select>
-                <input name='bpm' id='bpm'
-                    placeholder='bpm' onChange={(e) => dispatch({type: 'SET_BPM', payload: e.target.value})}
-                ></input>
+                <p>Bpm</p>
+                <Box sx={{ width: 300 }}>
+                    <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+                        <Slider aria-label='bpm' id='bpm' min={20} max={1000}
+                     onChange={(e) => dispatch({type: 'SET_BPM', payload: e.target.value})}
+                />
+                    </Stack>
+                </Box>
             </form>
 
 
