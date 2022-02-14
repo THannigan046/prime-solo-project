@@ -29,8 +29,6 @@ function LandingPage() {
           </p>
 
           <p>
-            WHy do we have to write this. 
-            I shoulda just done the boring to do list3
           </p>
         </div>
         <div className="grid-col grid-col_4">
