@@ -12,6 +12,8 @@ function EditPage() {
             payload: params.id 
         })
     }, [params.id])
+
+    
     let notes = useSelector(store => store.config.noteReducer)
     let kicks = useSelector(store => store.config.kickReducer)
     let snares = useSelector(store => store.config.snareReducer)
@@ -31,7 +33,7 @@ function EditPage() {
         console.log('notesToSend is', notesToSend);
         dispatch({
             type: 'SET_NOTES',
-            payload: notesToSend
+            payload: notes
         })
     }
     const handleKickChange = (stepNumber, event) => {

@@ -239,7 +239,10 @@ function Play() {
     }).toDestination()
 
     const loadPreset = (id) => {
-        
+        dispatch({
+            type: 'FETCH_ACTIVE_PRESET', 
+            payload: id
+        })
         axios.get(`api/preset/${id}`)
         .then((res) => {
             console.log('response is', res.data);
@@ -280,6 +283,7 @@ function Play() {
         <>
 
             <h1>Dammit bobby, play your dang synths</h1>
+            <h3>active preset is {activePreset.name}</h3>
             {/* <h3>Active preset is: {activePreset.name} </h3> */}
             <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
             <br></br>
