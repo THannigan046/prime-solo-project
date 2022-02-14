@@ -75,7 +75,7 @@ router.put('/:id', (req, res) => {
     })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/load/:id', (req, res) => {
   const queryText = 
   `SELECT * FROM PRESET WHERE ID = $1`
 

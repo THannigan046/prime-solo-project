@@ -244,7 +244,7 @@ function Play() {
             type: 'FETCH_ACTIVE_PRESET', 
             payload: id
         })
-        axios.get(`api/preset/${id}`)
+        axios.get(`api/preset/load/${id}`)
         .then((res) => {
             console.log('response is', res.data);
             dispatch({
