@@ -110,7 +110,9 @@ function EditPage() {
                 bpm: bpm,
                 id: activePreset.id
             }
+            
         })
+        history.push('/play')
     }
     
 
