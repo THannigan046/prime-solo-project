@@ -5,10 +5,10 @@ const router = express.Router();
 /**
  * GET route template
  */
-router.get('/', (req, res) => {
+router.get('/:id', (req, res) => {
   // GET route code here
-  const sqlText = `SELECT * FROM preset`
-  pool.query(sqlText)
+  const sqlText = `SELECT * FROM preset WHERE user_id = $1`
+  pool.query(sqlText, [req.params.id])
     .then((result) => {
       console.log('result is', result);
       res.send(result.rows)

@@ -111,6 +111,7 @@ function EditPage() {
                 id: activePreset.id
             }
         })
+        history.push('/play')
     }
     
 

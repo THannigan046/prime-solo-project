@@ -39,9 +39,9 @@ function* savePresetAs(action) {
     yield put ({ type: 'FETCH_PRESETS'})
 }
 
-function* fetchPresets() {
+function* fetchPresets(action) {
     try {
-        const response = yield axios.get('/api/preset')
+        const response = yield axios.get(`/api/preset/${action.payload}`)
         console.log('response is', response);
         
         yield put({ type: 'SET_PRESET_LIST', payload: response })

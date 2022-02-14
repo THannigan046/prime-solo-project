@@ -37,7 +37,8 @@ function Play() {
     
     const getPresets = () => {
         dispatch({
-            type: 'FETCH_PRESETS'
+            type: 'FETCH_PRESETS', 
+            payload: userId
         })
     }
 
