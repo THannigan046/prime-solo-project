@@ -69,13 +69,7 @@ function App() {
             path="/info"
           >
             <InfoPage />
-          </ProtectedRoute>
-          <ProtectedRoute
-          exact 
-          path="/presets"
-          >
-            <Presets/>
-            </ProtectedRoute>  
+          </ProtectedRoute> 
             <ProtectedRoute
             exact
             path="/presets/:id/edit"
