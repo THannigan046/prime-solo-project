@@ -291,7 +291,7 @@ function Play() {
                 <h3>active preset is {activePreset.name}</h3>
                 <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
                 <br></br>
-
+                <h4>Stop and restart to apply your changes</h4>
                 <Button id='playButton' onClick={transport}>{playButtonText}</Button>
                 <Grid item>
                 <div>
