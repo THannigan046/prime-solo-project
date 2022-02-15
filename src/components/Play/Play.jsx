@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Grid, Container, Checkbox, Box, Input, Stack, Slider, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import './Play.css'
+import Synth from '../Synth/Synth'
 function Play() {
 
     useEffect(() => {
@@ -495,10 +496,10 @@ function Play() {
 
                 <br></br>
                 <Grid item>
-                <p>drums</p>
+                <h3>drums</h3>
                 <br></br>
                 <div className='drumSequencer'>
-                    <p>kick</p>
+                    <h3>kick</h3>
                     <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(0, e))} />
                     <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(1, e))} />
                     <Checkbox {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(2, e))} />
