@@ -2,12 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Button, Grid, Container, Checkbox, Box, Input, Stack, Slider, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
-
+import * as Tone from 'tone'
 function EditPage() {
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
     useEffect(() => {
+        Tone.Transport.stop();
+        Tone.Transport.cancel()
         dispatch({
             type: 'FETCH_ACTIVE_PRESET',
             payload: params.id

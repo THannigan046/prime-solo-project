@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
-
+import * as Tone from 'tone'
 // CUSTOM COMPONENTS
 import RegisterForm from '../RegisterForm/RegisterForm';
 
 function LandingPage() {
   const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
+  
+  useEffect(() => {
+    Tone.Transport.stop()
+    Tone.Transport.cancel()
+  }, [])
 
   const onLogin = (event) => {
     history.push('/login');

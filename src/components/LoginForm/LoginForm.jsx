@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
-
+import * as Tone from 'tone'
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    Tone.Transport.stop()
+    Tone.Transport.cancel()
+  }, [])
   const login = (event) => {
     event.preventDefault();
-
+    
     if (username && password) {
       dispatch({
         type: 'LOGIN',
