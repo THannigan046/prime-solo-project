@@ -245,7 +245,8 @@ function Play() {
         dispatch({
             type: 'FETCH_ACTIVE_PRESET',
             payload: id
-        })
+        })  
+        axios.get(`/api/preset/${id}`)
             .then((res) => {
                 console.log('response is', res.data);
                 dispatch({
@@ -286,7 +287,7 @@ function Play() {
 
             
             <Grid container spacing={6} direction='column' alignItems='center'>
-                <h1>Play your dang Synths Bobby</h1>
+                <h1>Play your dang Synths </h1>
                 <h3>active preset is {activePreset.name}</h3>
                 <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
                 <br></br>
