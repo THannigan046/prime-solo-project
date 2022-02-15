@@ -1,4 +1,5 @@
 import * as Tone from 'tone'
+import * as React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
@@ -281,6 +282,7 @@ function Play() {
 
 
     }
+    
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     return (
         <Container maxWidth='md'>
@@ -463,6 +465,7 @@ function Play() {
                     <FormControl required sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel>Wave type</InputLabel>
                         <Select
+                        value={oscil}
                             name="oscType" id="oscType"
                             onChange={(e) => dispatch({ type: 'SET_OSCIL', payload: e.target.value })}>
                             <MenuItem value="sine">Sine</MenuItem>
@@ -475,6 +478,7 @@ function Play() {
                     <FormControl required sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel>Patt type</InputLabel>
                         <Select
+                            value={pattern}
                             name='pattern' id='pattern'
                             onChange={(e) => dispatch({ type: 'SET_PATTERN', payload: e.target.value })}
                         >
@@ -493,7 +497,7 @@ function Play() {
                 <h3>Bpm</h3>
                 <Box sx={{ width: 300 }}>
                     <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                        <Slider aria-label='bpm' id='bpm' min={20} max={1000}
+                        <Slider value={Number(bpm)} aria-label='bpm' id='bpm' min={20} max={1000}
                             onChange={(e) => dispatch({ type: 'SET_BPM', payload: e.target.value })}
                         />
                     </Stack>
