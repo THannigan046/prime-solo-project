@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {Button, Checkbox, Box, Stack, Slider} from '@mui/material'
+import {Button, Checkbox, Box, Input, Stack, Slider, InputLabel, MenuItem, FormControl, Select} from '@mui/material'
+import './Play.css'
 function Play() {
 
     useEffect(() => {
@@ -285,163 +286,197 @@ function Play() {
 
             <h1>Dammit bobby, play your dang synths</h1>
             <h3>active preset is {activePreset.name}</h3>
-            {/* <h3>Active preset is: {activePreset.name} </h3> */}
             <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
             <br></br>
-            <Button onClick={transport}>{playButtonText}</Button>
-            <p>Notes</p>
-            <form>
-                <select
+            <Button id='playButton' onClick={transport}>{playButtonText}</Button>
+            
+            <div> 
+                
+                <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel>1</InputLabel>
+                <Select
                     name="step0" id="step0"
                     
                     onChange={(e) => handleChange(0, e)}>
-                    <option value="A3">A3</option>
-                    <option value="A#3">A#3</option>
-                    <option value="B3">B3</option>
-                    <option value="C3">C3</option>
-                    <option value="C#3">C#3</option>
-                    <option value="D3">D3</option>
-                    <option value="D#3">D#3</option>
-                    <option value="E3">E3</option>
-                    <option value="F3">F3</option>
-                    <option value="F#3">F#3</option>
-                    <option value="G3">G3</option>
-                    <option value="G#3">G#3</option>
-                </select>
-                <select
+                    <MenuItem value="A3">A3</MenuItem>
+                    <MenuItem value="A#3">A#3</MenuItem>
+                    <MenuItem value="B3">B3</MenuItem>
+                    <MenuItem value="C3">C3</MenuItem>
+                    <MenuItem value="C#3">C#3</MenuItem>
+                    <MenuItem value="D3">D3</MenuItem>
+                    <MenuItem value="D#3">D#3</MenuItem>
+                    <MenuItem value="E3">E3</MenuItem>
+                    <MenuItem value="F3">F3</MenuItem>
+                    <MenuItem value="F#3">F#3</MenuItem>
+                    <MenuItem value="G3">G3</MenuItem>
+                    <MenuItem value="G#3">G#3</MenuItem>
+                </Select>
+                </FormControl>
+                <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel>2</InputLabel>
+                <Select
                     name="step1" id="step1"
                     onChange={(e) => handleChange(1, e)}>
-                    <option value="A3">A3</option>
-                    <option value="A#3">A#3</option>
-                    <option value="B3">B3</option>
-                    <option value="C3">C3</option>
-                    <option value="C#3">C#3</option>
-                    <option value="D3">D3</option>
-                    <option value="D#3">D#3</option>
-                    <option value="E3">E3</option>
-                    <option value="F3">F3</option>
-                    <option value="F#3">F#3</option>
-                    <option value="G3">G3</option>
-                    <option value="G#3">G#3</option>
-                </select>
-                <select
+                    <MenuItem value="A3">A3</MenuItem>
+                    <MenuItem value="A#3">A#3</MenuItem>
+                    <MenuItem value="B3">B3</MenuItem>
+                    <MenuItem value="C3">C3</MenuItem>
+                    <MenuItem value="C#3">C#3</MenuItem>
+                    <MenuItem value="D3">D3</MenuItem>
+                    <MenuItem value="D#3">D#3</MenuItem>
+                    <MenuItem value="E3">E3</MenuItem>
+                    <MenuItem value="F3">F3</MenuItem>
+                    <MenuItem value="F#3">F#3</MenuItem>
+                    <MenuItem value="G3">G3</MenuItem>
+                    <MenuItem value="G#3">G#3</MenuItem>
+                </Select>
+                </FormControl>
+                <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel>3</InputLabel>
+                <Select
                     name="step2" id="step2"
                     onChange={(e) => handleChange(2, e)}>
-                    <option value="A3">A3</option>
-                    <option value="A#3">A#3</option>
-                    <option value="B3">B3</option>
-                    <option value="C3">C3</option>
-                    <option value="C#3">C#3</option>
-                    <option value="D3">D3</option>
-                    <option value="D#3">D#3</option>
-                    <option value="E3">E3</option>
-                    <option value="F3">F3</option>
-                    <option value="F#3">F#3</option>
-                    <option value="G3">G3</option>
-                    <option value="G#3">G#3</option>
-                </select>
-                <select
+                    <MenuItem value="A3">A3</MenuItem>
+                    <MenuItem value="A#3">A#3</MenuItem>
+                    <MenuItem value="B3">B3</MenuItem>
+                    <MenuItem value="C3">C3</MenuItem>
+                    <MenuItem value="C#3">C#3</MenuItem>
+                    <MenuItem value="D3">D3</MenuItem>
+                    <MenuItem value="D#3">D#3</MenuItem>
+                    <MenuItem value="E3">E3</MenuItem>
+                    <MenuItem value="F3">F3</MenuItem>
+                    <MenuItem value="F#3">F#3</MenuItem>
+                    <MenuItem value="G3">G3</MenuItem>
+                    <MenuItem value="G#3">G#3</MenuItem>
+                </Select>
+                </FormControl>
+                <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel>4</InputLabel>
+                <Select
                     name="step3" id="step3"
                     onChange={(e) => handleChange(3, e)}>
-                    <option value="A3">A3</option>
-                    <option value="A#3">A#3</option>
-                    <option value="B3">B3</option>
-                    <option value="C3">C3</option>
-                    <option value="C#3">C#3</option>
-                    <option value="D3">D3</option>
-                    <option value="D#3">D#3</option>
-                    <option value="E3">E3</option>
-                    <option value="F3">F3</option>
-                    <option value="F#3">F#3</option>
-                    <option value="G3">G3</option>
-                    <option value="G#3">G#3</option>
-                </select>
-                <select
+                    <MenuItem value="A3">A3</MenuItem>
+                    <MenuItem value="A#3">A#3</MenuItem>
+                    <MenuItem value="B3">B3</MenuItem>
+                    <MenuItem value="C3">C3</MenuItem>
+                    <MenuItem value="C#3">C#3</MenuItem>
+                    <MenuItem value="D3">D3</MenuItem>
+                    <MenuItem value="D#3">D#3</MenuItem>
+                    <MenuItem value="E3">E3</MenuItem>
+                    <MenuItem value="F3">F3</MenuItem>
+                    <MenuItem value="F#3">F#3</MenuItem>
+                    <MenuItem value="G3">G3</MenuItem>
+                    <MenuItem value="G#3">G#3</MenuItem>
+                </Select>
+                </FormControl>
+                <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel>5</InputLabel>
+                <Select
                     name="step4" id="step4"
                     onChange={(e) => handleChange(4, e)}>
-                    <option value="A3">A3</option>
-                    <option value="A#3">A#3</option>
-                    <option value="B3">B3</option>
-                    <option value="C3">C3</option>
-                    <option value="C#3">C#3</option>
-                    <option value="D3">D3</option>
-                    <option value="D#3">D#3</option>
-                    <option value="E3">E3</option>
-                    <option value="F3">F3</option>
-                    <option value="F#3">F#3</option>
-                    <option value="G3">G3</option>
-                    <option value="G#3">G#3</option>
-                </select>
-                <select
+                    <MenuItem value="A3">A3</MenuItem>
+                    <MenuItem value="A#3">A#3</MenuItem>
+                    <MenuItem value="B3">B3</MenuItem>
+                    <MenuItem value="C3">C3</MenuItem>
+                    <MenuItem value="C#3">C#3</MenuItem>
+                    <MenuItem value="D3">D3</MenuItem>
+                    <MenuItem value="D#3">D#3</MenuItem>
+                    <MenuItem value="E3">E3</MenuItem>
+                    <MenuItem value="F3">F3</MenuItem>
+                    <MenuItem value="F#3">F#3</MenuItem>
+                    <MenuItem value="G3">G3</MenuItem>
+                    <MenuItem value="G#3">G#3</MenuItem>
+                </Select>
+                </FormControl>
+                <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel>6</InputLabel>
+                <Select
                     name="step5" id="step5"
                     onChange={(e) => handleChange(5, e)}>
-                    <option value="A3">A3</option>
-                    <option value="A#3">A#3</option>
-                    <option value="B3">B3</option>
-                    <option value="C3">C3</option>
-                    <option value="C#3">C#3</option>
-                    <option value="D3">D3</option>
-                    <option value="D#3">D#3</option>
-                    <option value="E3">E3</option>
-                    <option value="F3">F3</option>
-                    <option value="F#3">F#3</option>
-                    <option value="G3">G3</option>
-                    <option value="G#3">G#3</option>
-                </select>
-                <select
+                    <MenuItem value="A3">A3</MenuItem>
+                    <MenuItem value="A#3">A#3</MenuItem>
+                    <MenuItem value="B3">B3</MenuItem>
+                    <MenuItem value="C3">C3</MenuItem>
+                    <MenuItem value="C#3">C#3</MenuItem>
+                    <MenuItem value="D3">D3</MenuItem>
+                    <MenuItem value="D#3">D#3</MenuItem>
+                    <MenuItem value="E3">E3</MenuItem>
+                    <MenuItem value="F3">F3</MenuItem>
+                    <MenuItem value="F#3">F#3</MenuItem>
+                    <MenuItem value="G3">G3</MenuItem>
+                    <MenuItem value="G#3">G#3</MenuItem>
+                </Select>
+                </FormControl>
+                <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel>7</InputLabel>
+
+                <Select
                     name="step6" id="step6"
                     onChange={(e) => handleChange(6, e)}>
-                    <option value="A3">A3</option>
-                    <option value="A#3">A#3</option>
-                    <option value="B3">B3</option>
-                    <option value="C3">C3</option>
-                    <option value="C#3">C#3</option>
-                    <option value="D3">D3</option>
-                    <option value="D#3">D#3</option>
-                    <option value="E3">E3</option>
-                    <option value="F3">F3</option>
-                    <option value="F#3">F#3</option>
-                    <option value="G3">G3</option>
-                    <option value="G#3">G#3</option>
-                </select>
-                <select
+                    <MenuItem value="A3">A3</MenuItem>
+                    <MenuItem value="A#3">A#3</MenuItem>
+                    <MenuItem value="B3">B3</MenuItem>
+                    <MenuItem value="C3">C3</MenuItem>
+                    <MenuItem value="C#3">C#3</MenuItem>
+                    <MenuItem value="D3">D3</MenuItem>
+                    <MenuItem value="D#3">D#3</MenuItem>
+                    <MenuItem value="E3">E3</MenuItem>
+                    <MenuItem value="F3">F3</MenuItem>
+                    <MenuItem value="F#3">F#3</MenuItem>
+                    <MenuItem value="G3">G3</MenuItem>
+                    <MenuItem value="G#3">G#3</MenuItem>
+                </Select>
+                </FormControl>
+                <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel>8</InputLabel>
+                <Select
                     name="step7" id="step7"
                     onChange={(e) => handleChange(7, e)}>
 
-                    <option value="A3">A3</option>
-                    <option value="A#3">A#3</option>
-                    <option value="B3">B3</option>
-                    <option value="C3">C3</option>
-                    <option value="C#3">C#3</option>
-                    <option value="D3">D3</option>
-                    <option value="D#3">D#3</option>
-                    <option value="E3">E3</option>
-                    <option value="F3">F3</option>
-                    <option value="F#3">F#3</option>
-                    <option value="G3">G3</option>
-                    <option value="G#3">G#3</option>
-                </select>
-                <select
+                    <MenuItem value="A3">A3</MenuItem>
+                    <MenuItem value="A#3">A#3</MenuItem>
+                    <MenuItem value="B3">B3</MenuItem>
+                    <MenuItem value="C3">C3</MenuItem>
+                    <MenuItem value="C#3">C#3</MenuItem>
+                    <MenuItem value="D3">D3</MenuItem>
+                    <MenuItem value="D#3">D#3</MenuItem>
+                    <MenuItem value="E3">E3</MenuItem>
+                    <MenuItem value="F3">F3</MenuItem>
+                    <MenuItem value="F#3">F#3</MenuItem>
+                    <MenuItem value="G3">G3</MenuItem>
+                    <MenuItem value="G#3">G#3</MenuItem>
+                </Select>
+                </FormControl>
+                <br></br>
+                <FormControl required sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel>Wave type</InputLabel>
+                <Select
                     name="oscType" id="oscType"
                     onChange={(e) => dispatch({type: 'SET_OSCIL', payload: e.target.value})}>
-                    <option value="sine">Sine</option>
-                    <option value="triangle">Triangle</option>
-                    <option value="sawtooth">Saw</option>
-                    <option value="square">Square</option>
+                    <MenuItem value="sine">Sine</MenuItem>
+                    <MenuItem value="triangle">Triangle</MenuItem>
+                    <MenuItem value="sawtooth">Saw</MenuItem>
+                    <MenuItem value="square">Square</MenuItem>
 
-                </select>
-                <select
+                </Select>
+                </FormControl>
+                <FormControl required sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel>Patt type</InputLabel>
+                <Select
                     name='pattern' id='pattern'
                     onChange={(e) => dispatch({type: 'SET_PATTERN', payload: e.target.value})}
                 >
-                    <option value="up">up</option>
-                    <option value="down">down</option> 
-                    <option value="upDown">upDown</option>
-                    <option value='downUp'>downUp</option>
-                    <option value='random'>random</option>
-                    <option value='randomWalk'>randomWalk</option>
-                    <option value='randomOnce'>randomOnce</option>
-                </select>
+                    <MenuItem value="up">up</MenuItem>
+                    <MenuItem value="down">down</MenuItem> 
+                    <MenuItem value="upDown">upDown</MenuItem>
+                    <MenuItem value='downUp'>downUp</MenuItem>
+                    <MenuItem value='random'>random</MenuItem>
+                    <MenuItem value='randomWalk'>randomWalk</MenuItem>
+                    <MenuItem value='randomOnce'>randomOnce</MenuItem>
+                </Select>
+                </FormControl>
+                
+            </div>
                 <p>Bpm</p>
                 <Box sx={{ width: 300 }}>
                     <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
@@ -450,7 +485,7 @@ function Play() {
                 />
                     </Stack>
                 </Box>
-            </form>
+            
 
 
 
@@ -498,7 +533,8 @@ function Play() {
                 <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(6, e) }} />
                 <Checkbox {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(7, e) }} />
             </div>
-            <input type="text" placeholder='name your preset' onChange={(e) => dispatch({type: 'SET_PRESET_NAME', payload: e.target.value})} />
+            <br></br>
+            <Input type="text" placeholder='name your preset' onChange={(e) => dispatch({type: 'SET_PRESET_NAME', payload: e.target.value})} />
             <Button onClick={savePresetAs}>Save Preset As</Button>
             <br></br>
             <h2>Presets</h2>
