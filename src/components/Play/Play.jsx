@@ -298,9 +298,9 @@ function Play() {
 
                     <FormControl required sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel>1</InputLabel>
-                        <Select
+                        <Select 
                             name="step0" id="step0"
-
+                            value={notes[0]}
                             onChange={(e) => handleChange(0, e)}>
                             <MenuItem value="A3">A3</MenuItem>
                             <MenuItem value="A#3">A#3</MenuItem>
@@ -319,6 +319,7 @@ function Play() {
                     <FormControl required sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel>2</InputLabel>
                         <Select
+                                value={notes[1]}
                             name="step1" id="step1"
                             onChange={(e) => handleChange(1, e)}>
                             <MenuItem value="A3">A3</MenuItem>
@@ -338,6 +339,7 @@ function Play() {
                     <FormControl required sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel>3</InputLabel>
                         <Select
+                                value={notes[2]}
                             name="step2" id="step2"
                             onChange={(e) => handleChange(2, e)}>
                             <MenuItem value="A3">A3</MenuItem>
@@ -357,6 +359,7 @@ function Play() {
                     <FormControl required sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel>4</InputLabel>
                         <Select
+                                value={notes[3]}
                             name="step3" id="step3"
                             onChange={(e) => handleChange(3, e)}>
                             <MenuItem value="A3">A3</MenuItem>
@@ -376,6 +379,7 @@ function Play() {
                     <FormControl required sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel>5</InputLabel>
                         <Select
+                                value={notes[4]}
                             name="step4" id="step4"
                             onChange={(e) => handleChange(4, e)}>
                             <MenuItem value="A3">A3</MenuItem>
@@ -395,6 +399,7 @@ function Play() {
                     <FormControl required sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel>6</InputLabel>
                         <Select
+                                value={notes[5]}
                             name="step5" id="step5"
                             onChange={(e) => handleChange(5, e)}>
                             <MenuItem value="A3">A3</MenuItem>
@@ -415,6 +420,7 @@ function Play() {
                         <InputLabel>7</InputLabel>
 
                         <Select
+                                value={notes[6]}
                             name="step6" id="step6"
                             onChange={(e) => handleChange(6, e)}>
                             <MenuItem value="A3">A3</MenuItem>
@@ -434,6 +440,7 @@ function Play() {
                     <FormControl required sx={{ m: 1, minWidth: 80 }}>
                         <InputLabel>8</InputLabel>
                         <Select
+                                value={notes[7]}
                             name="step7" id="step7"
                             onChange={(e) => handleChange(7, e)}>
 
