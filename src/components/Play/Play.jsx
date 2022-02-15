@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Grid, Container, Checkbox, Box, Input, Stack, Slider, InputLabel, MenuItem, FormControl, Select } from '@mui/material'
 import './Play.css'
-import Synth from '../Synth/Synth'
+
 function Play() {
 
     useEffect(() => {
@@ -286,7 +286,7 @@ function Play() {
 
             
             <Grid container spacing={6} direction='column' alignItems='center'>
-                <h1>Dammit bobby, play your dang synths</h1>
+                <h1>Play your dang Synths Bobby</h1>
                 <h3>active preset is {activePreset.name}</h3>
                 <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
                 <br></br>
