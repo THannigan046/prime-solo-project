@@ -517,24 +517,24 @@ function Play() {
                 <div className='drumSequencer'>
                     <h3>kick</h3>
 {/*                     {[0, 1, 2, 3, 4, 5, 6].map(n => ())} */}
-                    <Checkbox checked={kicks[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(0, e))} />
-                    <Checkbox checked={kicks[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(1, e))} />
-                    <Checkbox checked={kicks[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(2, e))} />
-                    <Checkbox checked={kicks[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(3, e))} />
-                    <Checkbox checked={kicks[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(4, e))} />
-                    <Checkbox checked={kicks[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(5, e))} />
-                    <Checkbox checked={kicks[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(6, e))} />
-                    <Checkbox checked={kicks[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(7, e))} />
+                    <Checkbox color='secondary' checked={kicks[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(0, e))} />
+                    <Checkbox color='secondary' checked={kicks[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(1, e))} />
+                    <Checkbox color='secondary' checked={kicks[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(2, e))} />
+                    <Checkbox color='secondary' checked={kicks[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(3, e))} />
+                    <Checkbox color='secondary' checked={kicks[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(4, e))} />
+                    <Checkbox color='secondary' checked={kicks[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(5, e))} />
+                    <Checkbox color='secondary' checked={kicks[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(6, e))} />
+                    <Checkbox color='secondary' checked={kicks[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(7, e))} />
                     <br></br>
                     <h3>snare</h3>
-                    <Checkbox checked={snares[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(0, e))} />
-                    <Checkbox checked={snares[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(1, e))} />
-                    <Checkbox checked={snares[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(2, e))} />
-                    <Checkbox checked={snares[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(3, e))} />
-                    <Checkbox checked={snares[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(4, e))} />
-                    <Checkbox checked={snares[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(5, e))} />
-                    <Checkbox checked={snares[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(6, e))} />
-                    <Checkbox checked={snares[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(7, e))} />
+                    <Checkbox color='success' checked={snares[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(0, e))} />
+                    <Checkbox color='success' checked={snares[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(1, e))} />
+                    <Checkbox color='success' checked={snares[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(2, e))} />
+                    <Checkbox color='success' checked={snares[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(3, e))} />
+                    <Checkbox color='success' checked={snares[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(4, e))} />
+                    <Checkbox color='success' checked={snares[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(5, e))} />
+                    <Checkbox color='success' checked={snares[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(6, e))} />
+                    <Checkbox color='success' checked={snares[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(7, e))} />
                     <br></br>
                     <h3>hihat</h3>
                     <Checkbox checked={hats[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(0, e))} />
@@ -546,15 +546,15 @@ function Play() {
                     <Checkbox checked={hats[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(6, e))} />
                     <Checkbox checked={hats[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(7, e))} />
                     <br></br>
-                    <h3>tom1</h3>
-                    <Checkbox checked={toms[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(0, e) }} />
-                    <Checkbox checked={toms[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(1, e) }} />
-                    <Checkbox checked={toms[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(2, e) }} />
-                    <Checkbox checked={toms[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(3, e) }} />
-                    <Checkbox checked={toms[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(4, e) }} />
-                    <Checkbox checked={toms[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(5, e) }} />
-                    <Checkbox checked={toms[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(6, e) }} />
-                    <Checkbox checked={toms[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(7, e) }} />
+                    <h3>tom1</h3> 
+                    <Checkbox color="default"  checked={toms[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(0, e) }} />
+                    <Checkbox color="default"  checked={toms[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(1, e) }} />
+                    <Checkbox color="default"  checked={toms[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(2, e) }} />
+                    <Checkbox color="default"  checked={toms[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(3, e) }} />
+                    <Checkbox color="default"  checked={toms[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(4, e) }} />
+                    <Checkbox color="default"  checked={toms[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(5, e) }} />
+                    <Checkbox color="default"  checked={toms[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(6, e) }} />
+                    <Checkbox color="default"  checked={toms[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(7, e) }} />
                 </div>
                 </Grid>
                 <br></br>
