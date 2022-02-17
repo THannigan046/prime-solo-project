@@ -516,7 +516,7 @@ function Play() {
                 <br></br>
                 <div className='drumSequencer'>
                     <h3>kick</h3>
-{/*                     {[0, 1, 2, 3, 4, 5, 6].map(n => ())} */}
+{/*                     {[0, 1, 2, 3, 4, 5, 6, 7].map(n => ())} */}
                     <Checkbox color='secondary' checked={kicks[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(0, e))} />
                     <Checkbox color='secondary' checked={kicks[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(1, e))} />
                     <Checkbox color='secondary' checked={kicks[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(2, e))} />

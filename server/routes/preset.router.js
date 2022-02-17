@@ -1,10 +1,11 @@
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 /**
- * GET route template
+ * GET route template 
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
   // GET route code here
   const sqlText = `SELECT * FROM preset WHERE user_id = $1`
 
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
     })
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', rejectUnauthenticated, (req, res) => {
   const queryText =
     `SELECT * FROM PRESET WHERE ID = $1`
 
@@ -41,7 +42,7 @@ router.get('/:id', (req, res) => {
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
   // POST route code here
   console.log('made it to server', req.body);
   const name = req.body.name
@@ -71,7 +72,7 @@ router.post('/', (req, res) => {
     })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', rejectUnauthenticated, (req, res) => {
   console.log('made it to server, id is', req.body.id);
   const name = req.body.name
   const notes = req.body.notes
@@ -99,7 +100,7 @@ router.put('/:id', (req, res) => {
 })
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
   console.log('id is', req.params.id);
   let queryText =`
   DELETE FROM preset 
