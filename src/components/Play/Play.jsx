@@ -1,3 +1,5 @@
+// most of the front-end action happens here
+
 import * as Tone from 'tone'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
@@ -9,9 +11,11 @@ import './Play.css'
 
 function Play() {
 
+    //fetch presets on load 
     useEffect(() => {
         getPresets()
-    }, [])
+    }, []) 
+    
     const preset = useSelector(store => store.presetReducer)
     const activePreset = useSelector(store => store.activePreset)
     const presetList = useSelector(store => store.presetList)
@@ -19,6 +23,8 @@ function Play() {
     const dispatch = useDispatch();
     const userId = useSelector(store => store.user.id);
     const [sequence, setSequence] = useState(null)
+
+    //Grabs all the config data from redux and assigns each one to a variable 
     let notes = useSelector(store => store.config.noteReducer)
     let kicks = useSelector(store => store.config.kickReducer)
     let snares = useSelector(store => store.config.snareReducer)
@@ -28,9 +34,12 @@ function Play() {
     let pattern = useSelector(store => store.config.patternReducer)
     let bpm = useSelector(store => store.config.bpmReducer)
     let presetName = useSelector(store => store.config.presetName)
+
+    //used in transport function (basically a two-way switch)
     let [isPlaying, setIsPlaying] = useState(false)
     let [playButtonText, setPlayButtonText] = useState('play')
 
+    //initializes the transport and sets the bpm
     Tone.Transport.bpm.value = bpm
 
 
@@ -38,13 +47,15 @@ function Play() {
     const volumeNode = new Tone.Volume(-5).toDestination();
 
 
-
+    // get saga
     const getPresets = () => {
         dispatch({
             type: 'FETCH_PRESETS'
         })
     }
 
+    //gotta put tone.transport.stop/cancel each time you move a page
+    //else the sequence will keep going. 
     const toEdit = (id) => {
         history.push(`/presets/${id}/edit`)
         Tone.Transport.stop()
@@ -53,7 +64,7 @@ function Play() {
 
 
 
-
+    //post saga 
     const savePresetAs = () => {
         dispatch({
             type: 'SAVE_PRESET_AS',
@@ -72,12 +83,14 @@ function Play() {
         })
     }
 
+    //Synth setup (might add more control info in the future)
     const synth = new Tone.MonoSynth({
         oscillator: {
             //can be sine, square, tri or saw
             type: oscil
         },
         filter: {
+            
             frequency: 8000,
             type: 'lowpass'
         },
@@ -90,16 +103,21 @@ function Play() {
 
     }).chain(volumeNode, Tone.Destination)
 
+
+    //delete saga 
     const deletePreset = (id) => {
         dispatch({
             type: 'DELETE_PRESET',
             payload: id
         })
     }
-    // Declare handleChange
+
+    //used to change notes in the sequencer array. 
     const handleChange = (stepNumber, event) => {
         event.preventDefault()
         const value = event.target.value
+
+        //replaces a note at the specified step number
         const notesToSend = [...notes.slice(0, stepNumber), value, ...notes.slice(stepNumber + 1)]
         console.log('notesToSend is', notesToSend);
         dispatch({
@@ -107,6 +125,9 @@ function Play() {
             payload: notesToSend
         })
     }
+
+
+    //same architecture as handleChange, just w two options 
     const handleKickChange = (stepNumber, event) => {
 
         console.log('value', event.target.value);
@@ -117,6 +138,7 @@ function Play() {
 
         /* console.log('stepnumber is', stepNumber);
         console.log('value is', value); */
+
         if (kicks[stepNumber] === value) {
             value = null
         }
@@ -169,11 +191,13 @@ function Play() {
         })
     }
 
-
+    //two way switch that starts or stops the main transport 
     const transport = () => {
         if (!isPlaying) {
             setIsPlaying(true)
             setPlayButtonText('stop')
+            //starts a sequence for each instrument
+            //pattern for synth, sequence for drums
             const timeSequence = new Tone.Pattern((time, note) => {
                 synth.triggerAttackRelease(note, 0.1, time)
 
@@ -216,7 +240,7 @@ function Play() {
 
     }
 
-
+    //drum setup (reads audio off a url and assigns it to C3)
     const kick = new Tone.Sampler({
         urls: {
             C3: 'kick.mp3'
@@ -245,11 +269,12 @@ function Play() {
         baseUrl: 'https://tonejs.github.io/audio/drum-samples/CR78/'
     }).toDestination()
 
+    //grabs the active preset, then sets all the audio parameters/arrays/etc
     const loadPreset = (id) => {
         dispatch({
             type: 'FETCH_ACTIVE_PRESET',
             payload: id
-        })  
+        })
         axios.get(`/api/preset/${id}`)
             .then((res) => {
                 console.log('response is', res.data);
@@ -285,218 +310,218 @@ function Play() {
 
 
     }
-    
+
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     return (
         <Container maxWidth='md'>
 
-            
+
             <Grid container spacing={6} direction='column' alignItems='center'>
-                <h1>Play your dang Synths </h1>
+                <h1>Press play to start! </h1>
                 <h3>active preset is {activePreset.name}</h3>
-                <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" />
+                {/* <img src="https://art.ngfiles.com/images/1647000/1647974_thejudinator_synth-bobby.jpg?f1613569660" /> */}
                 <br></br>
                 <h4>Stop and restart to apply your changes</h4>
                 <Button id='playButton' onClick={transport}>{playButtonText}</Button>
                 <Grid item>
-                <div>
-                    {/* [0, 1, 2, 3, 4] */}
-                    <FormControl required sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>1</InputLabel>
-                        <Select 
-                            name="step0" id="step0"
-                            value={notes[0]}
-                            onChange={(e) => handleChange(0, e)}>
-                            {/* {['A3', 'A3#', 'B3'].map(val => )} */}
-                            <MenuItem value="A3">A3</MenuItem>
-                            <MenuItem value="A#3">A#3</MenuItem>
-                            <MenuItem value="B3">B3</MenuItem>
-                            <MenuItem value="C3">C3</MenuItem>
-                            <MenuItem value="C#3">C#3</MenuItem>
-                            <MenuItem value="D3">D3</MenuItem>
-                            <MenuItem value="D#3">D#3</MenuItem>
-                            <MenuItem value="E3">E3</MenuItem>
-                            <MenuItem value="F3">F3</MenuItem>
-                            <MenuItem value="F#3">F#3</MenuItem>
-                            <MenuItem value="G3">G3</MenuItem>
-                            <MenuItem value="G#3">G#3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>2</InputLabel>
-                        <Select
+                    <div>
+                        {/* [0, 1, 2, 3, 4] */}
+                        <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>1</InputLabel>
+                            <Select
+                                name="step0" id="step0"
+                                value={notes[0]}
+                                onChange={(e) => handleChange(0, e)}>
+                                {/* {['A3', 'A3#', 'B3'].map(val => )} */}
+                                <MenuItem value="A3">A3</MenuItem>
+                                <MenuItem value="A#3">A#3</MenuItem>
+                                <MenuItem value="B3">B3</MenuItem>
+                                <MenuItem value="C3">C3</MenuItem>
+                                <MenuItem value="C#3">C#3</MenuItem>
+                                <MenuItem value="D3">D3</MenuItem>
+                                <MenuItem value="D#3">D#3</MenuItem>
+                                <MenuItem value="E3">E3</MenuItem>
+                                <MenuItem value="F3">F3</MenuItem>
+                                <MenuItem value="F#3">F#3</MenuItem>
+                                <MenuItem value="G3">G3</MenuItem>
+                                <MenuItem value="G#3">G#3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>2</InputLabel>
+                            <Select
                                 value={notes[1]}
-                            name="step1" id="step1"
-                            onChange={(e) => handleChange(1, e)}>
-                            <MenuItem value="A3">A3</MenuItem>
-                            <MenuItem value="A#3">A#3</MenuItem>
-                            <MenuItem value="B3">B3</MenuItem>
-                            <MenuItem value="C3">C3</MenuItem>
-                            <MenuItem value="C#3">C#3</MenuItem>
-                            <MenuItem value="D3">D3</MenuItem>
-                            <MenuItem value="D#3">D#3</MenuItem>
-                            <MenuItem value="E3">E3</MenuItem>
-                            <MenuItem value="F3">F3</MenuItem>
-                            <MenuItem value="F#3">F#3</MenuItem>
-                            <MenuItem value="G3">G3</MenuItem>
-                            <MenuItem value="G#3">G#3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>3</InputLabel>
-                        <Select
+                                name="step1" id="step1"
+                                onChange={(e) => handleChange(1, e)}>
+                                <MenuItem value="A3">A3</MenuItem>
+                                <MenuItem value="A#3">A#3</MenuItem>
+                                <MenuItem value="B3">B3</MenuItem>
+                                <MenuItem value="C3">C3</MenuItem>
+                                <MenuItem value="C#3">C#3</MenuItem>
+                                <MenuItem value="D3">D3</MenuItem>
+                                <MenuItem value="D#3">D#3</MenuItem>
+                                <MenuItem value="E3">E3</MenuItem>
+                                <MenuItem value="F3">F3</MenuItem>
+                                <MenuItem value="F#3">F#3</MenuItem>
+                                <MenuItem value="G3">G3</MenuItem>
+                                <MenuItem value="G#3">G#3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>3</InputLabel>
+                            <Select
                                 value={notes[2]}
-                            name="step2" id="step2"
-                            onChange={(e) => handleChange(2, e)}>
-                            <MenuItem value="A3">A3</MenuItem>
-                            <MenuItem value="A#3">A#3</MenuItem>
-                            <MenuItem value="B3">B3</MenuItem>
-                            <MenuItem value="C3">C3</MenuItem>
-                            <MenuItem value="C#3">C#3</MenuItem>
-                            <MenuItem value="D3">D3</MenuItem>
-                            <MenuItem value="D#3">D#3</MenuItem>
-                            <MenuItem value="E3">E3</MenuItem>
-                            <MenuItem value="F3">F3</MenuItem>
-                            <MenuItem value="F#3">F#3</MenuItem>
-                            <MenuItem value="G3">G3</MenuItem>
-                            <MenuItem value="G#3">G#3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>4</InputLabel>
-                        <Select
+                                name="step2" id="step2"
+                                onChange={(e) => handleChange(2, e)}>
+                                <MenuItem value="A3">A3</MenuItem>
+                                <MenuItem value="A#3">A#3</MenuItem>
+                                <MenuItem value="B3">B3</MenuItem>
+                                <MenuItem value="C3">C3</MenuItem>
+                                <MenuItem value="C#3">C#3</MenuItem>
+                                <MenuItem value="D3">D3</MenuItem>
+                                <MenuItem value="D#3">D#3</MenuItem>
+                                <MenuItem value="E3">E3</MenuItem>
+                                <MenuItem value="F3">F3</MenuItem>
+                                <MenuItem value="F#3">F#3</MenuItem>
+                                <MenuItem value="G3">G3</MenuItem>
+                                <MenuItem value="G#3">G#3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>4</InputLabel>
+                            <Select
                                 value={notes[3]}
-                            name="step3" id="step3"
-                            onChange={(e) => handleChange(3, e)}>
-                            <MenuItem value="A3">A3</MenuItem>
-                            <MenuItem value="A#3">A#3</MenuItem>
-                            <MenuItem value="B3">B3</MenuItem>
-                            <MenuItem value="C3">C3</MenuItem>
-                            <MenuItem value="C#3">C#3</MenuItem>
-                            <MenuItem value="D3">D3</MenuItem>
-                            <MenuItem value="D#3">D#3</MenuItem>
-                            <MenuItem value="E3">E3</MenuItem>
-                            <MenuItem value="F3">F3</MenuItem>
-                            <MenuItem value="F#3">F#3</MenuItem>
-                            <MenuItem value="G3">G3</MenuItem>
-                            <MenuItem value="G#3">G#3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>5</InputLabel>
-                        <Select
+                                name="step3" id="step3"
+                                onChange={(e) => handleChange(3, e)}>
+                                <MenuItem value="A3">A3</MenuItem>
+                                <MenuItem value="A#3">A#3</MenuItem>
+                                <MenuItem value="B3">B3</MenuItem>
+                                <MenuItem value="C3">C3</MenuItem>
+                                <MenuItem value="C#3">C#3</MenuItem>
+                                <MenuItem value="D3">D3</MenuItem>
+                                <MenuItem value="D#3">D#3</MenuItem>
+                                <MenuItem value="E3">E3</MenuItem>
+                                <MenuItem value="F3">F3</MenuItem>
+                                <MenuItem value="F#3">F#3</MenuItem>
+                                <MenuItem value="G3">G3</MenuItem>
+                                <MenuItem value="G#3">G#3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>5</InputLabel>
+                            <Select
                                 value={notes[4]}
-                            name="step4" id="step4"
-                            onChange={(e) => handleChange(4, e)}>
-                            <MenuItem value="A3">A3</MenuItem>
-                            <MenuItem value="A#3">A#3</MenuItem>
-                            <MenuItem value="B3">B3</MenuItem>
-                            <MenuItem value="C3">C3</MenuItem>
-                            <MenuItem value="C#3">C#3</MenuItem>
-                            <MenuItem value="D3">D3</MenuItem>
-                            <MenuItem value="D#3">D#3</MenuItem>
-                            <MenuItem value="E3">E3</MenuItem>
-                            <MenuItem value="F3">F3</MenuItem>
-                            <MenuItem value="F#3">F#3</MenuItem>
-                            <MenuItem value="G3">G3</MenuItem>
-                            <MenuItem value="G#3">G#3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>6</InputLabel>
-                        <Select
+                                name="step4" id="step4"
+                                onChange={(e) => handleChange(4, e)}>
+                                <MenuItem value="A3">A3</MenuItem>
+                                <MenuItem value="A#3">A#3</MenuItem>
+                                <MenuItem value="B3">B3</MenuItem>
+                                <MenuItem value="C3">C3</MenuItem>
+                                <MenuItem value="C#3">C#3</MenuItem>
+                                <MenuItem value="D3">D3</MenuItem>
+                                <MenuItem value="D#3">D#3</MenuItem>
+                                <MenuItem value="E3">E3</MenuItem>
+                                <MenuItem value="F3">F3</MenuItem>
+                                <MenuItem value="F#3">F#3</MenuItem>
+                                <MenuItem value="G3">G3</MenuItem>
+                                <MenuItem value="G#3">G#3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>6</InputLabel>
+                            <Select
                                 value={notes[5]}
-                            name="step5" id="step5"
-                            onChange={(e) => handleChange(5, e)}>
-                            <MenuItem value="A3">A3</MenuItem>
-                            <MenuItem value="A#3">A#3</MenuItem>
-                            <MenuItem value="B3">B3</MenuItem>
-                            <MenuItem value="C3">C3</MenuItem>
-                            <MenuItem value="C#3">C#3</MenuItem>
-                            <MenuItem value="D3">D3</MenuItem>
-                            <MenuItem value="D#3">D#3</MenuItem>
-                            <MenuItem value="E3">E3</MenuItem>
-                            <MenuItem value="F3">F3</MenuItem>
-                            <MenuItem value="F#3">F#3</MenuItem>
-                            <MenuItem value="G3">G3</MenuItem>
-                            <MenuItem value="G#3">G#3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>7</InputLabel>
+                                name="step5" id="step5"
+                                onChange={(e) => handleChange(5, e)}>
+                                <MenuItem value="A3">A3</MenuItem>
+                                <MenuItem value="A#3">A#3</MenuItem>
+                                <MenuItem value="B3">B3</MenuItem>
+                                <MenuItem value="C3">C3</MenuItem>
+                                <MenuItem value="C#3">C#3</MenuItem>
+                                <MenuItem value="D3">D3</MenuItem>
+                                <MenuItem value="D#3">D#3</MenuItem>
+                                <MenuItem value="E3">E3</MenuItem>
+                                <MenuItem value="F3">F3</MenuItem>
+                                <MenuItem value="F#3">F#3</MenuItem>
+                                <MenuItem value="G3">G3</MenuItem>
+                                <MenuItem value="G#3">G#3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>7</InputLabel>
 
-                        <Select
+                            <Select
                                 value={notes[6]}
-                            name="step6" id="step6"
-                            onChange={(e) => handleChange(6, e)}>
-                            <MenuItem value="A3">A3</MenuItem>
-                            <MenuItem value="A#3">A#3</MenuItem>
-                            <MenuItem value="B3">B3</MenuItem>
-                            <MenuItem value="C3">C3</MenuItem>
-                            <MenuItem value="C#3">C#3</MenuItem>
-                            <MenuItem value="D3">D3</MenuItem>
-                            <MenuItem value="D#3">D#3</MenuItem>
-                            <MenuItem value="E3">E3</MenuItem>
-                            <MenuItem value="F3">F3</MenuItem>
-                            <MenuItem value="F#3">F#3</MenuItem>
-                            <MenuItem value="G3">G3</MenuItem>
-                            <MenuItem value="G#3">G#3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 80 }}>
-                        <InputLabel>8</InputLabel>
-                        <Select
+                                name="step6" id="step6"
+                                onChange={(e) => handleChange(6, e)}>
+                                <MenuItem value="A3">A3</MenuItem>
+                                <MenuItem value="A#3">A#3</MenuItem>
+                                <MenuItem value="B3">B3</MenuItem>
+                                <MenuItem value="C3">C3</MenuItem>
+                                <MenuItem value="C#3">C#3</MenuItem>
+                                <MenuItem value="D3">D3</MenuItem>
+                                <MenuItem value="D#3">D#3</MenuItem>
+                                <MenuItem value="E3">E3</MenuItem>
+                                <MenuItem value="F3">F3</MenuItem>
+                                <MenuItem value="F#3">F#3</MenuItem>
+                                <MenuItem value="G3">G3</MenuItem>
+                                <MenuItem value="G#3">G#3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel>8</InputLabel>
+                            <Select
                                 value={notes[7]}
-                            name="step7" id="step7"
-                            onChange={(e) => handleChange(7, e)}>
+                                name="step7" id="step7"
+                                onChange={(e) => handleChange(7, e)}>
 
-                            <MenuItem value="A3">A3</MenuItem>
-                            <MenuItem value="A#3">A#3</MenuItem>
-                            <MenuItem value="B3">B3</MenuItem>
-                            <MenuItem value="C3">C3</MenuItem>
-                            <MenuItem value="C#3">C#3</MenuItem>
-                            <MenuItem value="D3">D3</MenuItem>
-                            <MenuItem value="D#3">D#3</MenuItem>
-                            <MenuItem value="E3">E3</MenuItem>
-                            <MenuItem value="F3">F3</MenuItem>
-                            <MenuItem value="F#3">F#3</MenuItem>
-                            <MenuItem value="G3">G3</MenuItem>
-                            <MenuItem value="G#3">G#3</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <br></br>
-                    
-                    <FormControl required sx={{ m: 1, minWidth: 120 }}>
-                        <InputLabel>Wave type</InputLabel>
-                        <Select
-                        value={oscil}
-                            name="oscType" id="oscType"
-                            onChange={(e) => dispatch({ type: 'SET_OSCIL', payload: e.target.value })}>
-                            <MenuItem value="sine">Sine</MenuItem>
-                            <MenuItem value="triangle">Triangle</MenuItem>
-                            <MenuItem value="sawtooth">Saw</MenuItem>
-                            <MenuItem value="square">Square</MenuItem>
+                                <MenuItem value="A3">A3</MenuItem>
+                                <MenuItem value="A#3">A#3</MenuItem>
+                                <MenuItem value="B3">B3</MenuItem>
+                                <MenuItem value="C3">C3</MenuItem>
+                                <MenuItem value="C#3">C#3</MenuItem>
+                                <MenuItem value="D3">D3</MenuItem>
+                                <MenuItem value="D#3">D#3</MenuItem>
+                                <MenuItem value="E3">E3</MenuItem>
+                                <MenuItem value="F3">F3</MenuItem>
+                                <MenuItem value="F#3">F#3</MenuItem>
+                                <MenuItem value="G3">G3</MenuItem>
+                                <MenuItem value="G#3">G#3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <br></br>
 
-                        </Select>
-                    </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 120 }}>
-                        <InputLabel>Patt type</InputLabel>
-                        <Select
-                            value={pattern}
-                            name='pattern' id='pattern'
-                            onChange={(e) => dispatch({ type: 'SET_PATTERN', payload: e.target.value })}
-                        >
-                            <MenuItem value="up">up</MenuItem>
-                            <MenuItem value="down">down</MenuItem>
-                            <MenuItem value="upDown">upDown</MenuItem>
-                            <MenuItem value='downUp'>downUp</MenuItem>
-                            <MenuItem value='random'>random</MenuItem>
-                            <MenuItem value='randomWalk'>randomWalk</MenuItem>
-                            <MenuItem value='randomOnce'>randomOnce</MenuItem>
-                        </Select>
-                    </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 120 }}>
+                            <InputLabel>Wave type</InputLabel>
+                            <Select
+                                value={oscil}
+                                name="oscType" id="oscType"
+                                onChange={(e) => dispatch({ type: 'SET_OSCIL', payload: e.target.value })}>
+                                <MenuItem value="sine">Sine</MenuItem>
+                                <MenuItem value="triangle">Triangle</MenuItem>
+                                <MenuItem value="sawtooth">Saw</MenuItem>
+                                <MenuItem value="square">Square</MenuItem>
 
-                </div>
+                            </Select>
+                        </FormControl>
+                        <FormControl required sx={{ m: 1, minWidth: 120 }}>
+                            <InputLabel>Patt type</InputLabel>
+                            <Select
+                                value={pattern}
+                                name='pattern' id='pattern'
+                                onChange={(e) => dispatch({ type: 'SET_PATTERN', payload: e.target.value })}
+                            >
+                                <MenuItem value="up">up</MenuItem>
+                                <MenuItem value="down">down</MenuItem>
+                                <MenuItem value="upDown">upDown</MenuItem>
+                                <MenuItem value='downUp'>downUp</MenuItem>
+                                <MenuItem value='random'>random</MenuItem>
+                                <MenuItem value='randomWalk'>randomWalk</MenuItem>
+                                <MenuItem value='randomOnce'>randomOnce</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                    </div>
                 </Grid>
                 <h3>Bpm</h3>
                 <Box sx={{ width: 300 }}>
@@ -512,50 +537,50 @@ function Play() {
 
                 <br></br>
                 <Grid item>
-                <h3>drums</h3>
-                <br></br>
-                <div className='drumSequencer'>
-                    <h3>kick</h3>
-{/*                     {[0, 1, 2, 3, 4, 5, 6, 7].map(n => ())} */}
-                    <Checkbox color='secondary' checked={kicks[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(0, e))} />
-                    <Checkbox color='secondary' checked={kicks[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(1, e))} />
-                    <Checkbox color='secondary' checked={kicks[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(2, e))} />
-                    <Checkbox color='secondary' checked={kicks[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(3, e))} />
-                    <Checkbox color='secondary' checked={kicks[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(4, e))} />
-                    <Checkbox color='secondary' checked={kicks[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(5, e))} />
-                    <Checkbox color='secondary' checked={kicks[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(6, e))} />
-                    <Checkbox color='secondary' checked={kicks[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(7, e))} />
+                    <h3>drums</h3>
                     <br></br>
-                    <h3>snare</h3>
-                    <Checkbox color='success' checked={snares[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(0, e))} />
-                    <Checkbox color='success' checked={snares[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(1, e))} />
-                    <Checkbox color='success' checked={snares[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(2, e))} />
-                    <Checkbox color='success' checked={snares[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(3, e))} />
-                    <Checkbox color='success' checked={snares[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(4, e))} />
-                    <Checkbox color='success' checked={snares[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(5, e))} />
-                    <Checkbox color='success' checked={snares[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(6, e))} />
-                    <Checkbox color='success' checked={snares[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(7, e))} />
-                    <br></br>
-                    <h3>hihat</h3>
-                    <Checkbox checked={hats[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(0, e))} />
-                    <Checkbox checked={hats[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(1, e))} />
-                    <Checkbox checked={hats[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(2, e))} />
-                    <Checkbox checked={hats[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(3, e))} />
-                    <Checkbox checked={hats[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(4, e))} />
-                    <Checkbox checked={hats[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(5, e))} />
-                    <Checkbox checked={hats[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(6, e))} />
-                    <Checkbox checked={hats[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(7, e))} />
-                    <br></br>
-                    <h3>tom1</h3> 
-                    <Checkbox color="default"  checked={toms[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(0, e) }} />
-                    <Checkbox color="default"  checked={toms[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(1, e) }} />
-                    <Checkbox color="default"  checked={toms[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(2, e) }} />
-                    <Checkbox color="default"  checked={toms[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(3, e) }} />
-                    <Checkbox color="default"  checked={toms[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(4, e) }} />
-                    <Checkbox color="default"  checked={toms[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(5, e) }} />
-                    <Checkbox color="default"  checked={toms[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(6, e) }} />
-                    <Checkbox color="default"  checked={toms[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(7, e) }} />
-                </div>
+                    <div className='drumSequencer'>
+                        <h3>kick</h3>
+                        {/*                     {[0, 1, 2, 3, 4, 5, 6, 7].map(n => ())} */}
+                        <Checkbox color='secondary' checked={kicks[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(0, e))} />
+                        <Checkbox color='secondary' checked={kicks[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(1, e))} />
+                        <Checkbox color='secondary' checked={kicks[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(2, e))} />
+                        <Checkbox color='secondary' checked={kicks[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(3, e))} />
+                        <Checkbox color='secondary' checked={kicks[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(4, e))} />
+                        <Checkbox color='secondary' checked={kicks[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(5, e))} />
+                        <Checkbox color='secondary' checked={kicks[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(6, e))} />
+                        <Checkbox color='secondary' checked={kicks[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleKickChange(7, e))} />
+                        <br></br>
+                        <h3>snare</h3>
+                        <Checkbox color='success' checked={snares[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(0, e))} />
+                        <Checkbox color='success' checked={snares[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(1, e))} />
+                        <Checkbox color='success' checked={snares[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(2, e))} />
+                        <Checkbox color='success' checked={snares[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(3, e))} />
+                        <Checkbox color='success' checked={snares[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(4, e))} />
+                        <Checkbox color='success' checked={snares[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(5, e))} />
+                        <Checkbox color='success' checked={snares[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(6, e))} />
+                        <Checkbox color='success' checked={snares[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleSnareChange(7, e))} />
+                        <br></br>
+                        <h3>hihat</h3>
+                        <Checkbox checked={hats[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(0, e))} />
+                        <Checkbox checked={hats[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(1, e))} />
+                        <Checkbox checked={hats[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(2, e))} />
+                        <Checkbox checked={hats[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(3, e))} />
+                        <Checkbox checked={hats[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(4, e))} />
+                        <Checkbox checked={hats[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(5, e))} />
+                        <Checkbox checked={hats[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(6, e))} />
+                        <Checkbox checked={hats[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => (handleHatChange(7, e))} />
+                        <br></br>
+                        <h3>tom1</h3>
+                        <Checkbox color="default" checked={toms[0] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(0, e) }} />
+                        <Checkbox color="default" checked={toms[1] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(1, e) }} />
+                        <Checkbox color="default" checked={toms[2] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(2, e) }} />
+                        <Checkbox color="default" checked={toms[3] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(3, e) }} />
+                        <Checkbox color="default" checked={toms[4] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(4, e) }} />
+                        <Checkbox color="default" checked={toms[5] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(5, e) }} />
+                        <Checkbox color="default" checked={toms[6] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(6, e) }} />
+                        <Checkbox color="default" checked={toms[7] === 'C3'} {...label} size='medium' value="C3" onChange={(e) => { handleTomChange(7, e) }} />
+                    </div>
                 </Grid>
                 <br></br>
                 <Input type="text" placeholder='name your preset' onChange={(e) => dispatch({ type: 'SET_PRESET_NAME', payload: e.target.value })} />
