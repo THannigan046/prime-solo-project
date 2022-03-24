@@ -3,8 +3,6 @@
 
 _Duration: 3 Week Sprint_
 
-Directly above this is how long it took you to develop the project. Your project description goes here. What problem did you solve? How did you solve it? 
-
 I designed SynthDeaf in 3 weeks, with a week of scope and 2 weeks of intensive programming. After discovering ToneJs, an audio library for javascript, I wanted to implement it into my solo project to combine my love of audio with my passion for developing web applications. To do so, I had to teach myself tonejs and integrate it with react, redux, sagas, node, sql in order to build a full stack app. It was a bear of a project, but I did it. The result is a web-based synthesizer/drum machine that can save, load, edit and delete presets. I’m happy with how this turned out, I hope you enjoy. 
 
 
