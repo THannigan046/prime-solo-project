@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux';
 import errors from './errors.reducer';
 import user from './user.reducer';
 import preset from './preset.reducer';
 import presetList from './preset.list'
 import activePreset from './activePreset'
 import config from './config.reducer'
+import { combineReducers } from 'redux';
 import presetReducer from './preset.reducer'
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
