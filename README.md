@@ -30,13 +30,9 @@ Login and start tweaking
 
 - [Tonejs](https://tonejs.github.io/)
 - [Node.js](https://nodejs.org/en/)
-- [moment.js] (https://momentjs.com/)
-- [multerS3] (https://www.npmjs.com/package/multer-s3)
-- [AWS] (https://aws.amazon.com/)
-- [ReactJs] (https://reactjs.org/)
-- [MaterialUi] (https://mui.com/)
-- [Redux] (https://redux.js.org/)
-- [SweetAlert2] (https://sweetalert2.github.io/)
+- [ReactJs](https://reactjs.org/)
+- [MaterialUi](https://mui.com/)
+- [Redux](https://redux.js.org/)
 - [PostgreSQL]  (https://www.postgresql.org/)
 
 
